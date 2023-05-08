@@ -86,6 +86,41 @@
             <artifactId>kotlin-stdlib-jdk8</artifactId>
             <version>1.8.20</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.vlsi.mxgraph</groupId>
+            <artifactId>jgraphx</artifactId>
+            <version>4.2.2</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.jgrapht</groupId>-->
+<!--            <artifactId>jgrapht-core</artifactId>-->
+<!--            <version>1.5.1</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.jgrapht</groupId>-->
+<!--            <artifactId>jgrapht-io</artifactId>-->
+<!--            <version>1.5.1</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.jgrapht</groupId>-->
+<!--            <artifactId>jgrapht-ext</artifactId>-->
+<!--            <version>1.5.1</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>jgraph</groupId>-->
+<!--            <artifactId>jgraph</artifactId>-->
+<!--            <version>5.13.0.0</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.graphstream</groupId>-->
+<!--            <artifactId>gs-core</artifactId>-->
+<!--            <version>2.0</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.graphstream</groupId>-->
+<!--            <artifactId>gs-ui-swing</artifactId>-->
+<!--            <version>2.0</version>-->
+<!--        </dependency>-->
     </dependencies>
 
 </project>
