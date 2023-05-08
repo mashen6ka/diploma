@@ -5,54 +5,60 @@ import time.DurationGenerator
 import java.util.LinkedList
 import java.util.Queue
 
+data class ProcessorStatistics(
+    val totalRequests: Int,
+    val averageProcessingTime: Time,
+    val averageWaitingTime: Time
+)
+
 class Processor(
     private val durationGenerator: DurationGenerator
 ) {
     private val queue: Queue<Request> = LinkedList()
-    private var busy: Boolean = false
     private var currentRequest: Request? = null
     private var currentStartTime: Time = 0
     var currentFinishTime: Time = 0
         private set
 
-    var totalRequests: Int = 0
-        private set
-    var totalProcessingDuration: Time = 0
-        private set
-    var totalWaitingDuration: Time = 0
-        private set
+    private var totalRequests: Int = 0
+    private var totalProcessingTime: Time = 0
+    private var totalWaitingTime: Time = 0
+
+    fun statistics(): ProcessorStatistics =
+        ProcessorStatistics(
+            totalRequests = totalRequests,
+            averageProcessingTime = totalProcessingTime / totalRequests,
+            averageWaitingTime =  totalWaitingTime / totalRequests,
+        )
 
     fun enqueueRequest(request: Request) {
         queue.add(request)
     }
 
-    fun queueSize(): Int {
-        return queue.size
-    }
+    fun queueSize(): Int = queue.size
 
     fun startProcessing(currentTime: Time): Time? {
-        if (busy || queue.isEmpty())
+        if (currentRequest != null || queue.isEmpty())
             return null;
 
-        busy = true
+        val finishTime = currentTime + durationGenerator.generate()
         currentRequest = queue.poll()
         currentStartTime = currentTime
-        currentFinishTime = currentTime + durationGenerator.generate()
-        totalWaitingDuration += currentTime - currentRequest!!.timeIn
+        currentFinishTime = finishTime
+        totalWaitingTime += currentTime - currentRequest!!.timeIn
 
         return currentFinishTime
     }
 
     fun finishProcessing(currentTime: Time) {
-        if (!busy) return
+        if (currentRequest == null) return
 
         totalRequests += 1
-        totalProcessingDuration += currentFinishTime - currentStartTime
+        totalProcessingTime += currentFinishTime - currentStartTime
         currentRequest!!.timeOut = currentTime
 
         currentRequest = null
         currentStartTime = 0
         currentFinishTime = 0
-        busy = false
     }
 }

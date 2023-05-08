@@ -1,22 +1,14 @@
 import simulator.Generator
+import simulator.HybridSimulator
 import simulator.Processor
 import simulator.TimeBasedSimulator
 import time.UniformDurationGenerator
 
 fun main() {
-//    val durationGenerator = UniformDurationGenerator(1, 10)
     val processor = Processor(UniformDurationGenerator(10, 100))
-    val generator = Generator(UniformDurationGenerator(1, 10), listOf(processor))
-    val simulator = TimeBasedSimulator(listOf(generator), listOf(processor))
-
+    val generator = Generator(UniformDurationGenerator(1, 10), arrayOf(processor))
+    val simulator = HybridSimulator(arrayOf(generator), arrayOf(processor), 15, 10)
     println(simulator.simulate(100_000))
-    println()
-    println(generator.totalGenerationDuration / generator.totalRequests)
-    println(generator.totalRequests)
-    println()
-    println(processor.totalRequests)
-    println(processor.totalProcessingDuration / processor.totalRequests)
-    println(processor.totalWaitingDuration / processor.totalRequests)
 }
 
 

@@ -4,8 +4,8 @@ import time.Time
 import kotlin.system.measureTimeMillis
 
 class TimeBasedSimulator(
-    private val generators: List<Generator>,
-    private val processors: List<Processor>,
+    private val generators: Array<Generator>,
+    private val processors: Array<Processor>,
     private val deltaT: Int = 1
 ) {
     fun simulate(maxTime: Time): Long {
