@@ -1,140 +1,133 @@
-import java.awt.Dimension
-
-import java.awt.Color;
-import java.awt.GridBagLayout
-import java.awt.GridBagConstraints
+import java.awt.*
+import java.awt.event.ActionEvent
+import java.awt.event.ActionListener
 import javax.swing.*
-import javax.swing.border.TitledBorder
+import javax.swing.border.EmptyBorder
 
 fun main() {
-//    var req = Request(10)
-//    println(req.timeIn)
-
-//    val graph = mxGraph()
-//    val parent = graph.getDefaultParent();
-//
-//    val source1 = graph.insertVertex(parent, null, "Source Vertex", 0.0, 0.0, 100.0, 50.0)
-//    val source2 = graph.insertVertex(parent, null, "Source Vertex", 0.0, 0.0, 100.0, 50.0)
-//    val target = graph.insertVertex(parent, null, "Target Vertex", 0.0, 0.0, 100.0, 50.0)
-//    graph.insertEdge(parent, null, "", source1, target)
-//    graph.insertEdge(parent, null, "", source2, target)
-
-//    val layout = mxHierarchicalLayout(graph)
-//    layout.execute(graph.defaultParent)
-//
-//    val component = mxGraphComponent(graph)
-//    component.isEnabled = false
-//
-//    val frame = JFrame("Graph")
-//    frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-//    frame.add(component)
-//    val button = JButton("Click me!")
-//    frame.add(button, BorderLayout.NORTH)
-//    button.addActionListener {
-//        graph.removeCells(graph.getChildCells(graph.defaultParent))
-//        graph.refresh()
-//        component.repaint()
-//    }
-
-//    frame.contentPane.add(component)
-//    frame.pack()
-//    frame.size = Dimension(500, 500)
-//    frame.isVisible = true
-
-
-//    val textArea = JTextArea("Hello, Kotlin/Swing world")
-//    val scrollPane = JScrollPane(textArea)
-
-
-
-    val frame = JFrame("Combined modelling")
-    var layout = GridBagLayout()
-    var constraints = GridBagConstraints()
-    frame.layout = layout
-
-    var labelTime = JLabel("Время моделирования: ")
-    constraints.gridy = 0
-    constraints.gridx = 0
-    frame.add(labelTime, constraints)
-
-    var entryTime = JTextField("", 16)
-    constraints.gridy = 0
-    constraints.gridx = 1
-    frame.add(entryTime, constraints)
-
-
-    val data = arrayOf(
-        arrayOf("1", "GEN1"),
-        arrayOf("2", "GEN2"),
-        arrayOf("3", "GEN3"),
-    )
-    val header = arrayOf("№", "Name")
-    var panel = JPanel()
-    panel.border = TitledBorder("Generators")
-    var tableGen = JTable(data, header)
-
-    tableGen.setShowGrid(false);
-//    tableGen.showHorizontalLines = true
-//    tableGen.showVerticalLines = true
-
-//    tableGen.setShowHorizontalLines(true);
-
-    tableGen.setGridColor(Color.gray);
-
-    constraints.gridy = 1
-    constraints.gridx = 0
-    constraints.gridwidth = 2
-    constraints.fill = GridBagConstraints.HORIZONTAL
-    var scrollPane = JScrollPane(tableGen)
-    panel.add(scrollPane)
-    frame.add(panel, constraints)
-
-
-
-//    frame.getContentPane().add(scrollPane, BorderLayout.CENTER)
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
-    frame.setSize(Dimension(600, 400))
-    frame.setLocationRelativeTo(null)
-    frame.setVisible(true)
+    SwingUtilities.invokeLater {
+        createAndShowGUI()
+    }
 }
 
+fun createAndShowGUI() {
+    val frame = JFrame("Modelling")
+    frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
+		frame.preferredSize = Dimension(400, 300)
+    frame.isResizable = false
 
-//import com.mxgraph.layout.hierarchical.mxHierarchicalLayout
-//import com.mxgraph.swing.mxGraphComponent
-//import com.mxgraph.view.mxGraph
-//import java.awt.BorderLayout
-//import java.awt.Dimension
-//import javax.swing.JButton
-//import javax.swing.JFrame
+    val items = arrayOf("GEN1", "GEN2", "GEN3")
+    val list = JList(items)
+    list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
+    list.border = EmptyBorder(10, 10, 10, 10)
+    list.addMouseListener(object : java.awt.event.MouseAdapter() {
+        override fun mouseClicked(e: java.awt.event.MouseEvent) {
+            if (e.clickCount == 1) {
+                val selected = list.selectedValue
+                if (selected != null) {
+                    createAndShowModal(frame, selected)
+                }
+            }
+        }
+    })
 
-//fun main() {
-//    val graph = mxGraph()
-//    val parent = graph.getDefaultParent();
-//
-//    val source1 = graph.insertVertex(parent, null, "Source Vertex", 0.0, 0.0, 100.0, 50.0)
-//    val source2 = graph.insertVertex(parent, null, "Source Vertex", 0.0, 0.0, 100.0, 50.0)
-//    val target = graph.insertVertex(parent, null, "Target Vertex", 0.0, 0.0, 100.0, 50.0)
-//    graph.insertEdge(parent, null, "", source1, target)
-//    graph.insertEdge(parent, null, "", source2, target)
-//
-//    val layout = mxHierarchicalLayout(graph)
-//    layout.execute(graph.defaultParent)
-//
-//    val component = mxGraphComponent(graph)
-//    component.isEnabled = false
-//
-//    val frame = JFrame("Graph")
-//    frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-//    frame.add(component)
-//    val button = JButton("Click me!")
-//    frame.add(button, BorderLayout.NORTH)
-//    button.addActionListener {
-//        graph.removeCells(graph.getChildCells(graph.defaultParent))
-//        graph.refresh()
-//        component.repaint()
-//    }
-//
-//    frame.pack()
-//    frame.size = Dimension(500, 500)
-//    frame.isVisible = true
-//}
+    val contentPane = JPanel(BorderLayout())
+    contentPane.add(list, BorderLayout.CENTER)
+    contentPane.border = EmptyBorder(10, 10, 10, 10)
+
+    frame.contentPane = contentPane
+    frame.pack()
+    frame.setLocationRelativeTo(null)
+    frame.isVisible = true
+}
+
+fun createUniformPanel(): JPanel {
+	val panel = JPanel(GridBagLayout())
+	val c = GridBagConstraints()
+
+	c.gridx = 0
+	c.gridy = 0
+	c.anchor = GridBagConstraints.LINE_END
+	panel.add(JLabel("Min:"), c)
+
+	c.gridx = 1
+	c.gridy = 0
+	c.anchor = GridBagConstraints.LINE_START
+	panel.add(JTextField(10), c)
+
+	c.gridx = 0
+	c.gridy = 1
+	c.anchor = GridBagConstraints.LINE_END
+	panel.add(JLabel("Max:"), c)
+
+	c.gridx = 1
+	c.gridy = 1
+	c.anchor = GridBagConstraints.LINE_START
+	panel.add(JTextField(10), c)
+
+	return panel
+}
+
+fun createPeakPanel(): JPanel {
+	val panel = JPanel(GridBagLayout())
+	val c = GridBagConstraints()
+
+	c.gridx = 0
+	c.gridy = 0
+	c.anchor = GridBagConstraints.LINE_END
+	panel.add(JLabel("Peak Length:"), c)
+
+	c.gridx = 1
+	c.gridy = 0
+	c.anchor = GridBagConstraints.LINE_START
+	panel.add(JTextField(10), c)
+
+	c.gridx = 0
+	c.gridy = 1
+	c.anchor = GridBagConstraints.LINE_END
+	panel.add(JLabel("Frequency:"), c)
+
+	c.gridx = 1
+	c.gridy = 1
+	c.anchor = GridBagConstraints.LINE_START
+	panel.add(JTextField(10), c)
+
+	return panel
+}
+
+fun createAndShowModal(parentFrame: JFrame, title: String) {
+	val modal = JDialog(parentFrame, title, true)
+	modal.isResizable = false
+
+	val comboPanel = JPanel()
+	val comboBox = JComboBox(arrayOf("Uniform", "Peak"))
+	comboPanel.add(comboBox)
+
+	val mainPanel = JPanel(BorderLayout())
+	mainPanel.add(comboPanel, BorderLayout.PAGE_START)
+
+	var cardPanel = JPanel(CardLayout())
+	cardPanel.add(createUniformPanel(), "Uniform")
+	cardPanel.add(createPeakPanel(), "Peak")
+	mainPanel.add(cardPanel, BorderLayout.CENTER)
+
+	comboBox.addActionListener {
+			val cardLayout = cardPanel.layout as CardLayout
+			cardLayout.show(cardPanel, comboBox.selectedItem.toString())
+	}
+
+	val buttonPanel = JPanel(FlowLayout(FlowLayout.CENTER))
+	val okButton = JButton("OK")
+	buttonPanel.add(okButton)
+
+	okButton.addActionListener {
+			modal.dispose()
+	}
+
+	modal.add(mainPanel)
+	modal.add(buttonPanel, BorderLayout.PAGE_END)
+
+	modal.pack()
+	modal.setLocationRelativeTo(parentFrame)
+	modal.isVisible = true
+}
