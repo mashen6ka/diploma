@@ -2,43 +2,62 @@ import java.awt.*
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 import javax.swing.*
+import javax.swing.JList
 import javax.swing.border.EmptyBorder
 
 fun main() {
-    SwingUtilities.invokeLater {
-        createAndShowGUI()
-    }
+		SwingUtilities.invokeLater {
+				createAndShowGUI()
+		}
 }
 
 fun createAndShowGUI() {
-    val frame = JFrame("Modelling")
-    frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
+		val frame = JFrame("Modelling")
+		frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
 		frame.preferredSize = Dimension(400, 300)
-    frame.isResizable = false
+		frame.isResizable = false
 
-    val items = arrayOf("GEN1", "GEN2", "GEN3")
-    val list = JList(items)
-    list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
-    list.border = EmptyBorder(10, 10, 10, 10)
-    list.addMouseListener(object : java.awt.event.MouseAdapter() {
-        override fun mouseClicked(e: java.awt.event.MouseEvent) {
-            if (e.clickCount == 1) {
-                val selected = list.selectedValue
-                if (selected != null) {
-                    createAndShowModal(frame, selected)
-                }
-            }
-        }
-    })
+		val generators = arrayOf("GEN1", "GEN2", "GEN3", "GEN4")
+		val listGen = createList(frame, generators)
+		var scrollGen = JScrollPane(listGen)
 
-    val contentPane = JPanel(BorderLayout())
-    contentPane.add(list, BorderLayout.CENTER)
-    contentPane.border = EmptyBorder(10, 10, 10, 10)
+		val processors = arrayOf("PROC1", "PROC2", "PROC3")
+		val listProc = createList(frame, processors)
+		var scrollProc = JScrollPane(listProc);
 
-    frame.contentPane = contentPane
-    frame.pack()
-    frame.setLocationRelativeTo(null)
-    frame.isVisible = true
+		val contentPane = JPanel(GridBagLayout())
+		val c = GridBagConstraints()
+
+		c.gridx = 0
+		c.gridy = 0
+		contentPane.add(scrollGen, c)
+		c.gridx = 1
+		c.gridy = 0
+		contentPane.add(scrollProc, c)
+		contentPane.border = EmptyBorder(10, 10, 10, 10)
+
+		frame.contentPane = contentPane
+		frame.pack()
+		frame.setLocationRelativeTo(null)
+		frame.isVisible = true
+}
+
+fun createList(frame: JFrame, items: Array<String>): JList<String> {
+	val list = JList(items)
+	list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
+	list.border = EmptyBorder(10, 10, 10, 10)
+	list.setVisibleRowCount(5)
+	list.addMouseListener(object : java.awt.event.MouseAdapter() {
+			override fun mouseClicked(e: java.awt.event.MouseEvent) {
+					if (e.clickCount == 1) {
+							val selected = list.selectedValue
+							if (selected != null) {
+									createAndShowModal(frame, selected)
+							}
+					}
+			}
+	})
+	return list
 }
 
 fun createUniformPanel(): JPanel {
