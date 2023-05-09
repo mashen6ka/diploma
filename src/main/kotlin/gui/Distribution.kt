@@ -8,16 +8,12 @@ import javax.swing.*
 class ParamField(
 	var name: String,
 	var field: JTextField
-) {
-
-}
+) {}
 
 data class Distribution(
 	var name: String,
 	var params: MutableList<ParamField>
-) {
-
-}
+) {}
 
 class DistributionPanel() {
 	var panel: JPanel = JPanel()
@@ -29,15 +25,15 @@ class DistributionPanel() {
 	init {
 		this.panel = JPanel()
 		this.panel.setBorder(BorderFactory.createTitledBorder("Распределение:"))
-		val comboBoxDistr = JComboBox(arrayOf("Uniform", "Peak"))
+		val comboBoxDistr = JComboBox(arrayOf("Равномерное", "Равномерное (пиковое)"))
 		this.panel.add(comboBoxDistr)
 	
 		var panelCard = JPanel(CardLayout())
-		panelCard.add(createDistributionPanel("Uniform", listOf("Min", "Max")), "Uniform")
-		panelCard.add(createDistributionPanel("Peak", listOf("Peak Length", "Frequency")), "Peak")
+		panelCard.add(createDistributionPanel("Равномерное", listOf("Min", "Max")), "Равномерное")
+		panelCard.add(createDistributionPanel("Равномерное (пиковое)", listOf("Min", "Max", "Длина пика", "Частота пика")), "Равномерное (пиковое)")
 		this.panel.add(panelCard, BorderLayout.CENTER)
 
-		val defaultDistr = "Uniform"
+		val defaultDistr = "Равномерное"
 		comboBoxDistr.setSelectedItem(defaultDistr)
 		this.current = this.distributions.firstOrNull({ it.name ==  defaultDistr})
 		comboBoxDistr.addActionListener {
@@ -78,13 +74,13 @@ class DistributionPanel() {
 		paramsNames.forEachIndexed { i, p ->
 			c.gridx = 0
 			c.gridy = i
-			c.anchor = GridBagConstraints.LINE_START
+			c.anchor = GridBagConstraints.LINE_END
 			panel.add(JLabel("$p:"), c)
 
 			c.gridx = 1
 			c.gridy = i
 			c.anchor = GridBagConstraints.LINE_END
-			var field = JTextField(10)
+			var field = JTextField(7)
 			panel.add(field, c)
 			params.add(ParamField(p, field))
 		}
