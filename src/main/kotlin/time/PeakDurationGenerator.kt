@@ -1,12 +1,11 @@
 package time
 
-import kotlin.math.ln
-import kotlin.math.exp
 import kotlin.random.Random
+import kotlin.random.nextInt
 
-class PoissonDurationGenerator(
-    private val min: Int,
-    private val max: Int,
+class PeakDurationGenerator(
+    private val peakRange: IntRange,
+    private val waitRange: IntRange,
     private val period: Int
 ) : DurationGenerator {
     private val random = Random(System.currentTimeMillis())
@@ -15,9 +14,10 @@ class PoissonDurationGenerator(
     override fun generate(): Time {
         if (counter == period) {
             counter = 0
-            return random.nextInt(500, 1000)
+            return random.nextInt(waitRange)
         }
+
         counter++
-        return random.nextInt(min, max + 1)
+        return random.nextInt(peakRange)
     }
 }

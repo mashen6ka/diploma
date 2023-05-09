@@ -29,7 +29,6 @@ class Processor(
     )
 
     fun enqueue(request: Request) {
-        println(this)
         queue.add(request)
     }
 
@@ -49,10 +48,10 @@ class Processor(
 
     override fun start(currentTime: Time): Time? {
         if (currentRequest != null || queue.isEmpty())
-            return null;
+            return null
 
         val finishTime = currentTime + durationGenerator.generate()
-        currentRequest = queue.first()
+        currentRequest = queue.removeFirst()
         currentStartTime = currentTime
         currentFinishTime = finishTime
         totalWaitingTime += currentTime - currentRequest!!.timeIn

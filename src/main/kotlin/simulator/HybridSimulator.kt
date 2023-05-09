@@ -117,7 +117,7 @@ class Clock {
             array.forEach { events ->
                 currentTime++
                 while (events.isNotEmpty()) {
-                    val event = events.removeLast()
+                    val event = events.removeFirst()
                     processEvent(this, event)
                 }
             }
