@@ -1,11 +1,9 @@
+import gui.DistributionPanel
+
 import java.awt.*
-import java.awt.event.ActionEvent
-import java.awt.event.ActionListener
 import javax.swing.*
-import javax.swing.JList
-import javax.swing.JButton
 import javax.swing.border.EmptyBorder
-import javax.swing.border.LineBorder
+
 
 fun main() {
 		SwingUtilities.invokeLater {
@@ -134,78 +132,11 @@ fun createList(frame: JFrame, items: Array<String>): JList<String> {
 	return list
 }
 
-fun createUniformPanel(): JPanel {
-	val panel = JPanel(GridBagLayout())
-	val c = GridBagConstraints()
-
-	c.gridx = 0
-	c.gridy = 0
-	c.anchor = GridBagConstraints.LINE_END
-	panel.add(JLabel("Min:"), c)
-
-	c.gridx = 1
-	c.gridy = 0
-	c.anchor = GridBagConstraints.LINE_START
-	panel.add(JTextField(10), c)
-
-	c.gridx = 0
-	c.gridy = 1
-	c.anchor = GridBagConstraints.LINE_END
-	panel.add(JLabel("Max:"), c)
-
-	c.gridx = 1
-	c.gridy = 1
-	c.anchor = GridBagConstraints.LINE_START
-	panel.add(JTextField(10), c)
-
-	return panel
-}
-
-fun createPeakPanel(): JPanel {
-	val panel = JPanel(GridBagLayout())
-	val c = GridBagConstraints()
-
-	c.gridx = 0
-	c.gridy = 0
-	c.anchor = GridBagConstraints.LINE_END
-	panel.add(JLabel("Peak Length:"), c)
-
-	c.gridx = 1
-	c.gridy = 0
-	c.anchor = GridBagConstraints.LINE_START
-	panel.add(JTextField(10), c)
-
-	c.gridx = 0
-	c.gridy = 1
-	c.anchor = GridBagConstraints.LINE_END
-	panel.add(JLabel("Frequency:"), c)
-
-	c.gridx = 1
-	c.gridy = 1
-	c.anchor = GridBagConstraints.LINE_START
-	panel.add(JTextField(10), c)
-
-	return panel
-}
-
 fun createAndShowModal(parentFrame: JFrame, title: String) {
 	val modal = JDialog(parentFrame, title, true)
 	modal.isResizable = false
 
-	val panelDistr = JPanel()
-	panelDistr.setBorder(BorderFactory.createTitledBorder("Распределение:"))
-	val comboBoxDistr = JComboBox(arrayOf("Uniform", "Peak"))
-	panelDistr.add(comboBoxDistr)
-
-	var panelCard = JPanel(CardLayout())
-	panelCard.add(createUniformPanel(), "Uniform")
-	panelCard.add(createPeakPanel(), "Peak")
-	panelDistr.add(panelCard, BorderLayout.CENTER)
-
-	comboBoxDistr.addActionListener {
-			val cardLayout = panelCard.layout as CardLayout
-			cardLayout.show(panelCard, comboBoxDistr.selectedItem.toString())
-	}
+	val panelDistr = DistributionPanel()
 
 	val panelReceivers = JPanel(GridBagLayout())
 	panelReceivers.setBorder(BorderFactory.createTitledBorder("Получатели:"))
@@ -237,7 +168,7 @@ fun createAndShowModal(parentFrame: JFrame, title: String) {
 
 	val panelMain = JPanel(GridBagLayout())
 	panelMain.border = EmptyBorder(10, 10, 10, 10)
-	panelMain.add(panelDistr, GridBagConstraints().apply{
+	panelMain.add(panelDistr.panel, GridBagConstraints().apply{
 		gridx = 0
 		gridy = 0
 		fill = GridBagConstraints.HORIZONTAL
