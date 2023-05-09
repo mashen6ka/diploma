@@ -163,6 +163,7 @@ fun createAndShowModal(parentFrame: JFrame, title: String) {
 
 
 	okButton.addActionListener {
+			println(panelDistr.getDurationGenerator())
 			modal.dispose()
 	}
 
