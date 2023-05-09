@@ -3,6 +3,8 @@ package gui
 import java.awt.*
 import javax.swing.*
 import javax.swing.border.EmptyBorder
+import simulator.Generator
+import simulator.Processor
 
 class MainWindow() {
     var frame: JFrame = JFrame("Modelling")
@@ -19,14 +21,13 @@ class MainWindow() {
 
     private fun createWindowContent(): JPanel {
         var contentPane = JPanel(GridBagLayout())
-        var c = GridBagConstraints()
-
         var blocksPanel = createBlocksPanel()
 
-        c.fill = GridBagConstraints.HORIZONTAL
-        c.gridx = 0
-        c.gridy = 0
-        contentPane.add(blocksPanel, c)
+        contentPane.add(blocksPanel, GridBagConstraints().apply {
+            fill = GridBagConstraints.HORIZONTAL
+            gridx = 0
+            gridy = 0
+        })
 
         return contentPane
     }
@@ -43,7 +44,7 @@ class MainWindow() {
         return panel
     }
 
-    private fun createBlockPanel(blockName: String, blocks: Array<String>): JPanel {
+    private fun createBlockPanel(blockName: String, blocks: Muta<String>): JPanel {
         var panel = JPanel(GridBagLayout())
         panel.setBorder(BorderFactory.createTitledBorder("$blockName:"))
 
@@ -87,9 +88,10 @@ class MainWindow() {
         list.addMouseListener(object : java.awt.event.MouseAdapter() {
             override fun mouseClicked(e: java.awt.event.MouseEvent) {
                 if (e.clickCount == 1) {
-                    val selected = list.selectedValue
-                    if (selected != null) {
-                        createAndShowModal(selected)
+                    val selectedValue = list.selectedValue
+                    val selectedIndex = list.selectedIndex
+                    if (selectedValue != null && selectedIndex != null) {
+                        createAndShowModal(selectedValue, selectedIndex)
                     }
                 }
             }
@@ -101,7 +103,7 @@ class MainWindow() {
         return list
     }
 
-    private fun createAndShowModal(title: String) {
+    private fun createAndShowModal(title: String, blockIndex: Int) {
         val modal = JDialog(this.frame, title, true)
         modal.isResizable = false
 
