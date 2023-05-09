@@ -1,53 +1,31 @@
-import simulator.Generator
-import simulator.HybridSimulator
-import simulator.Processor
-import simulator.TimeBasedSimulator
-import time.UniformDurationGenerator
+import simulator.*
+import time.DurationGenerator
+import time.*
+import kotlin.math.*
+import kotlin.random.Random
+
 
 fun main() {
-    val processor = Processor(UniformDurationGenerator(10, 100))
-    val generator = Generator(UniformDurationGenerator(1, 10), arrayOf(processor))
-    val simulator = HybridSimulator(arrayOf(generator), arrayOf(processor), 15, 10)
-    println(simulator.simulate(100_000))
+    val processors = List(2) {
+        Processor(UniformDurationGenerator(1, 10), null)
+    }
+//    val processor1 = Processor(UniformDurationGenerator(1, 10), null)
+//    val processor2 = Processor(UniformDurationGenerator(1, 10), null)
+//    val processor3 = Processor(UniformDurationGenerator(1, 10), null)
+//    val processors = listOf(processor1, processor2, processor3)
+
+    val generator = Generator(PoissonDurationGenerator(1, 10, 100), processors)
+    val generators = listOf(generator)
+
+    runSimulator(TimeBasedSimulator(generators, processors, 1))
+//    runSimulator(EventBasedSimulator(generators, processors))
+//    runSimulator(HybridSimulator(generators, processors, 200, 10))
 }
 
-
-//import com.mxgraph.layout.hierarchical.mxHierarchicalLayout
-//import com.mxgraph.swing.mxGraphComponent
-//import com.mxgraph.view.mxGraph
-//import java.awt.BorderLayout
-//import java.awt.Dimension
-//import javax.swing.JButton
-//import javax.swing.JFrame
-
-//fun main() {
-//    val graph = mxGraph()
-//    val parent = graph.getDefaultParent();
-//
-//    val source1 = graph.insertVertex(parent, null, "Source Vertex", 0.0, 0.0, 100.0, 50.0)
-//    val source2 = graph.insertVertex(parent, null, "Source Vertex", 0.0, 0.0, 100.0, 50.0)
-//    val target = graph.insertVertex(parent, null, "Target Vertex", 0.0, 0.0, 100.0, 50.0)
-//    graph.insertEdge(parent, null, "", source1, target)
-//    graph.insertEdge(parent, null, "", source2, target)
-//
-//    val layout = mxHierarchicalLayout(graph)
-//    layout.execute(graph.defaultParent)
-//
-//    val component = mxGraphComponent(graph)
-//    component.isEnabled = false
-//
-//    val frame = JFrame("Graph")
-//    frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-//    frame.add(component)
-//    val button = JButton("Click me!")
-//    frame.add(button, BorderLayout.NORTH)
-//    button.addActionListener {
-//        graph.removeCells(graph.getChildCells(graph.defaultParent))
-//        graph.refresh()
-//        component.repaint()
-//    }
-//
-//    frame.pack()
-//    frame.size = Dimension(500, 500)
-//    frame.isVisible = true
-//}
+fun runSimulator(simulator: Simulator) {
+    val statistics = simulator.simulate(100)
+    println(statistics.elapsed)
+    statistics.generators.forEach { println(it) }
+    statistics.processors.forEach { println(it) }
+    println()
+}
