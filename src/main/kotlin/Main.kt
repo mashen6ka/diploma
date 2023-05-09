@@ -207,17 +207,24 @@ fun createAndShowModal(parentFrame: JFrame, title: String) {
 			cardLayout.show(panelCard, comboBoxDistr.selectedItem.toString())
 	}
 
-	val panelReceivers = JPanel()
+	val panelReceivers = JPanel(GridBagLayout())
 	panelReceivers.setBorder(BorderFactory.createTitledBorder("Получатели:"))
-	// val listReceivers = JList(arrayOf("Item 1", "Item 2", "Item 3", "Item 4", "Item 5"))
-	// listReceivers.selectionMode = ListSelectionModel.MULTIPLE_INTERVAL_SELECTION
-	// listReceivers.addListSelectionListener { e ->
-	// 	if (!e.valueIsAdjusting) {
-	// 			val selectedValues = listReceivers.selectedValuesList
-	// 			println("Selected items: $selectedValues")
-	// 	}
-	// }
-	// panelReceivers.add(JScrollPane(listReceivers))
+	val listReceivers = JList(arrayOf("Item 1", "Item 2", "Item 3", "Item 4", "Item 5"))
+	listReceivers.selectionMode = ListSelectionModel.MULTIPLE_INTERVAL_SELECTION
+	val renderer = DefaultListCellRenderer()
+	renderer.horizontalAlignment = JLabel.CENTER
+	listReceivers.cellRenderer = renderer
+
+	listReceivers.addListSelectionListener { e ->
+		if (!e.valueIsAdjusting) {
+				val selected = listReceivers.selectedValuesList
+				println("Selected items: $selected")
+		}
+	}
+	panelReceivers.add(listReceivers, GridBagConstraints().apply {
+		weightx = 1.0
+		fill = GridBagConstraints.HORIZONTAL
+	})
 
 	val panelButton = JPanel(FlowLayout(FlowLayout.CENTER))
 	val okButton = JButton("OK")
