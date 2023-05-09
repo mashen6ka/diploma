@@ -6,6 +6,8 @@ import kotlin.random.Random
 
 
 fun main() {
+    MainWindow()
+
     val processors = List(2) {
         Processor(UniformDurationGenerator(1, 10), null)
     }
