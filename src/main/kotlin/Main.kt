@@ -192,33 +192,58 @@ fun createAndShowModal(parentFrame: JFrame, title: String) {
 	val modal = JDialog(parentFrame, title, true)
 	modal.isResizable = false
 
-	val comboPanel = JPanel()
-	val comboBox = JComboBox(arrayOf("Uniform", "Peak"))
-	comboPanel.add(comboBox)
+	val panelDistr = JPanel()
+	panelDistr.setBorder(BorderFactory.createTitledBorder("Распределение:"))
+	val comboBoxDistr = JComboBox(arrayOf("Uniform", "Peak"))
+	panelDistr.add(comboBoxDistr)
 
-	val mainPanel = JPanel(BorderLayout())
-	mainPanel.add(comboPanel, BorderLayout.PAGE_START)
+	var panelCard = JPanel(CardLayout())
+	panelCard.add(createUniformPanel(), "Uniform")
+	panelCard.add(createPeakPanel(), "Peak")
+	panelDistr.add(panelCard, BorderLayout.CENTER)
 
-	var cardPanel = JPanel(CardLayout())
-	cardPanel.add(createUniformPanel(), "Uniform")
-	cardPanel.add(createPeakPanel(), "Peak")
-	mainPanel.add(cardPanel, BorderLayout.CENTER)
-
-	comboBox.addActionListener {
-			val cardLayout = cardPanel.layout as CardLayout
-			cardLayout.show(cardPanel, comboBox.selectedItem.toString())
+	comboBoxDistr.addActionListener {
+			val cardLayout = panelCard.layout as CardLayout
+			cardLayout.show(panelCard, comboBoxDistr.selectedItem.toString())
 	}
 
-	val buttonPanel = JPanel(FlowLayout(FlowLayout.CENTER))
+	val panelReceivers = JPanel()
+	panelReceivers.setBorder(BorderFactory.createTitledBorder("Получатели:"))
+	// val listReceivers = JList(arrayOf("Item 1", "Item 2", "Item 3", "Item 4", "Item 5"))
+	// listReceivers.selectionMode = ListSelectionModel.MULTIPLE_INTERVAL_SELECTION
+	// listReceivers.addListSelectionListener { e ->
+	// 	if (!e.valueIsAdjusting) {
+	// 			val selectedValues = listReceivers.selectedValuesList
+	// 			println("Selected items: $selectedValues")
+	// 	}
+	// }
+	// panelReceivers.add(JScrollPane(listReceivers))
+
+	val panelButton = JPanel(FlowLayout(FlowLayout.CENTER))
 	val okButton = JButton("OK")
-	buttonPanel.add(okButton)
+	panelButton.add(okButton)
+
 
 	okButton.addActionListener {
 			modal.dispose()
 	}
 
-	modal.add(mainPanel)
-	modal.add(buttonPanel, BorderLayout.PAGE_END)
+	val panelMain = JPanel(GridBagLayout())
+	panelMain.border = EmptyBorder(10, 10, 10, 10)
+	panelMain.add(panelDistr, GridBagConstraints().apply{
+		gridx = 0
+		gridy = 0
+		fill = GridBagConstraints.HORIZONTAL
+	})
+
+	panelMain.add(panelReceivers, GridBagConstraints().apply{
+		gridx = 0
+		gridy = 1
+		fill = GridBagConstraints.HORIZONTAL
+	})
+
+	modal.add(panelMain)
+	modal.add(panelButton, BorderLayout.PAGE_END)
 
 	modal.pack()
 	modal.setLocationRelativeTo(parentFrame)
