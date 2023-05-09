@@ -2,57 +2,78 @@ package simulator
 
 import time.Time
 import time.DurationGenerator
-import java.util.LinkedList
-import java.util.Queue
+import mathutils.average
 
 class Processor(
-    private val durationGenerator: DurationGenerator
-) {
-    private val queue: Queue<Request> = LinkedList()
-    private var busy: Boolean = false
+    private val durationGenerator: DurationGenerator,
+    private val receivers: List<Processor>?
+) : Block {
+    data class Statistics(
+        val totalRequests: Int,
+        val averageProcessingTime: Time,
+        val averageWaitingTime: Time
+    )
+
+    private val queue: MutableList<Request> = mutableListOf()
     private var currentRequest: Request? = null
     private var currentStartTime: Time = 0
-    var currentFinishTime: Time = 0
-        private set
+    private var currentFinishTime: Time = 0
+    private var totalRequests: Int = 0
+    private var totalProcessingTime: Time = 0
+    private var totalWaitingTime: Time = 0
 
-    var totalRequests: Int = 0
-        private set
-    var totalProcessingDuration: Time = 0
-        private set
-    var totalWaitingDuration: Time = 0
-        private set
+    fun statistics(): Statistics = Statistics(
+        totalRequests = totalRequests,
+        averageProcessingTime = average(totalProcessingTime, totalRequests),
+        averageWaitingTime =  average(totalWaitingTime, totalRequests),
+    )
 
-    fun enqueueRequest(request: Request) {
+    fun enqueue(request: Request) {
+        println(this)
         queue.add(request)
     }
 
-    fun queueSize(): Int {
-        return queue.size
+    fun queueSize(): Int = queue.size
+
+    override fun cleanupState() {
+        queue.clear()
+        currentRequest = null
+        currentStartTime = 0
+        currentFinishTime = 0
+        totalRequests = 0
+        totalProcessingTime = 0
+        totalWaitingTime = 0
     }
 
-    fun startProcessing(currentTime: Time): Time? {
-        if (busy || queue.isEmpty())
+    override fun currentFinishTime(): Time = currentFinishTime
+
+    override fun start(currentTime: Time): Time? {
+        if (currentRequest != null || queue.isEmpty())
             return null;
 
-        busy = true
-        currentRequest = queue.poll()
+        val finishTime = currentTime + durationGenerator.generate()
+        currentRequest = queue.first()
         currentStartTime = currentTime
-        currentFinishTime = currentTime + durationGenerator.generate()
-        totalWaitingDuration += currentTime - currentRequest!!.timeIn
+        currentFinishTime = finishTime
+        totalWaitingTime += currentTime - currentRequest!!.timeIn
 
         return currentFinishTime
     }
 
-    fun finishProcessing(currentTime: Time) {
-        if (!busy) return
+    override fun finish(currentTime: Time): Processor? {
+        if (currentRequest == null) return null
 
         totalRequests += 1
-        totalProcessingDuration += currentFinishTime - currentStartTime
+        totalProcessingTime += currentFinishTime - currentStartTime
         currentRequest!!.timeOut = currentTime
+
+        val receiver = receivers?.minByOrNull { it.queueSize() }
+        receiver?.enqueue(currentRequest!!)
 
         currentRequest = null
         currentStartTime = 0
         currentFinishTime = 0
-        busy = false
+
+        return receiver
     }
 }

@@ -2,46 +2,61 @@ package simulator
 
 import time.Time
 import time.DurationGenerator
+import mathutils.average
 
 class Generator(
     private val durationGenerator: DurationGenerator,
-    private val receivers: List<Processor>
-) {
-    private var busy: Boolean = false
+    private val receivers: List<Processor>?
+) : Block {
+    data class Statistics(
+        val totalRequests: Int,
+        val averageGenerationTime: Time
+    )
+
     private var currentRequest: Request? = null
     private var currentStartTime: Time = 0
-    var currentFinishTime: Time = 0
-        private set
+    private var currentFinishTime: Time = 0
+    private var totalRequests: Int = 0
+    private var totalGenerationDuration: Time = 0
 
-    var totalRequests: Int = 0
-        private set
-    var totalGenerationDuration: Time = 0
-        private set
+    fun statistics(): Statistics = Statistics(
+        totalRequests = totalRequests,
+        averageGenerationTime = average(totalGenerationDuration, totalRequests)
+    )
 
-    fun startGeneration(currentTime: Time): Time? {
-        if (busy) return null
+    override fun cleanupState() {
+        currentRequest = null
+        currentStartTime = 0
+        currentFinishTime = 0
+        totalRequests = 0
+        totalGenerationDuration = 0
+    }
 
-        busy = true
+    override fun currentFinishTime(): Time = currentFinishTime
+
+    override fun start(currentTime: Time): Time? {
+        if (currentRequest != null) return null
+
+        val finishTime = currentTime + durationGenerator.generate()
+        currentRequest = Request(finishTime)
         currentStartTime = currentTime
-        currentFinishTime = currentTime + durationGenerator.generate()
-        currentRequest = Request(currentFinishTime)
+        currentFinishTime = finishTime
 
         return currentFinishTime
     }
 
-    fun finishGeneration(currentTime: Time): Processor? {
-        if (!busy) return null;
+    override fun finish(currentTime: Time): Processor? {
+        if (currentRequest == null) return null
 
         totalRequests += 1
         totalGenerationDuration += currentFinishTime - currentStartTime
 
-        val receiver = receivers.minByOrNull { it.queueSize() }
-        receiver?.enqueueRequest(currentRequest!!)
+        val receiver = receivers?.minByOrNull { it.queueSize() }
+        receiver?.enqueue(currentRequest!!)
 
         currentRequest = null
         currentStartTime = 0
         currentFinishTime = 0
-        busy = false
 
         return receiver
     }
