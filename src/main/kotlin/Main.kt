@@ -3,7 +3,9 @@ import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 import javax.swing.*
 import javax.swing.JList
+import javax.swing.JButton
 import javax.swing.border.EmptyBorder
+import javax.swing.border.LineBorder
 
 fun main() {
 		SwingUtilities.invokeLater {
@@ -17,24 +19,15 @@ fun createAndShowGUI() {
 		frame.preferredSize = Dimension(400, 300)
 		frame.isResizable = false
 
-		val generators = arrayOf("GEN1", "GEN2", "GEN3", "GEN4")
-		val listGen = createList(frame, generators)
-		var scrollGen = JScrollPane(listGen)
+		var panelBlocks = createBlocksPanel(frame)
 
-		val processors = arrayOf("PROC1", "PROC2", "PROC3")
-		val listProc = createList(frame, processors)
-		var scrollProc = JScrollPane(listProc);
+		var contentPane = JPanel(GridBagLayout())
+		var c = GridBagConstraints()
 
-		val contentPane = JPanel(GridBagLayout())
-		val c = GridBagConstraints()
-
+		c.fill = GridBagConstraints.HORIZONTAL
 		c.gridx = 0
 		c.gridy = 0
-		contentPane.add(scrollGen, c)
-		c.gridx = 1
-		c.gridy = 0
-		contentPane.add(scrollProc, c)
-		contentPane.border = EmptyBorder(10, 10, 10, 10)
+		contentPane.add(panelBlocks, c)
 
 		frame.contentPane = contentPane
 		frame.pack()
@@ -42,10 +35,88 @@ fun createAndShowGUI() {
 		frame.isVisible = true
 }
 
+fun createBlocksPanel(frame: JFrame): JPanel {
+	var panel = JPanel()
+
+	var panelGen = JPanel(GridBagLayout())
+	panelGen.setBorder(BorderFactory.createTitledBorder("Генераторы:"))
+
+	var panelProc = JPanel(GridBagLayout())
+	panelProc.setBorder(BorderFactory.createTitledBorder("Процессоры:"))
+
+	var generators = arrayOf("GENERATOR1", "GENERATOR2", "GENERATOR3", "GENERATOR4", "GENERATOR5", "GENERATOR6")
+	var listGen = createList(frame, generators)
+	var scrollGen = JScrollPane(listGen)
+
+	var processors = arrayOf("PROCESSOR1", "PROCESSOR2", "PROCESSOR3")
+	var listProc = createList(frame, processors)
+	var scrollProc = JScrollPane(listProc);
+
+	var buttonAddGen = JButton("+")
+	var buttonDelGen = JButton("-")
+
+	var buttonAddProc = JButton("+")
+	var buttonDelProc = JButton("-")
+
+
+	panelGen.add(scrollGen, GridBagConstraints().apply {
+		gridwidth = 2
+		weightx = 1.0
+		weighty = 1.0
+		insets = Insets(0, 5, 0, 5)
+		fill = GridBagConstraints.HORIZONTAL
+	})
+
+	panelGen.add(buttonAddGen, GridBagConstraints().apply {
+		gridx = 0
+		gridy = 1
+		weightx = 1.0
+		weighty = 1.0
+		fill = GridBagConstraints.HORIZONTAL
+	})
+
+	panelGen.add(buttonDelGen, GridBagConstraints().apply {
+		gridx = 1
+		gridy = 1
+		weightx = 1.0
+		weighty = 1.0
+		fill = GridBagConstraints.HORIZONTAL
+	})
+
+	panelProc.add(scrollProc, GridBagConstraints().apply {
+		gridwidth = 2
+		weightx = 1.0
+		weighty = 1.0
+		insets = Insets(0, 5, 0, 5)
+		fill = GridBagConstraints.HORIZONTAL
+	})
+
+	panelProc.add(buttonAddProc, GridBagConstraints().apply {
+		gridx = 0
+		gridy = 1
+		weightx = 1.0
+		weighty = 1.0
+		fill = GridBagConstraints.HORIZONTAL
+	})
+
+	panelProc.add(buttonDelProc, GridBagConstraints().apply {
+		gridx = 1
+		gridy = 1
+		weightx = 1.0
+		weighty = 1.0
+		fill = GridBagConstraints.HORIZONTAL
+	})
+
+	panel.add(panelGen)
+	panel.add(panelProc)
+
+	return panel
+}
+
 fun createList(frame: JFrame, items: Array<String>): JList<String> {
 	val list = JList(items)
 	list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
-	list.border = EmptyBorder(10, 10, 10, 10)
+	// list.border = EmptyBorder(10, 0, 10, 0)
 	list.setVisibleRowCount(5)
 	list.addMouseListener(object : java.awt.event.MouseAdapter() {
 			override fun mouseClicked(e: java.awt.event.MouseEvent) {
@@ -57,6 +128,9 @@ fun createList(frame: JFrame, items: Array<String>): JList<String> {
 					}
 			}
 	})
+	val renderer = DefaultListCellRenderer()
+	renderer.horizontalAlignment = JLabel.CENTER
+	list.cellRenderer = renderer
 	return list
 }
 
