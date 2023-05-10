@@ -5,8 +5,8 @@ import time.DurationGenerator
 import mathutils.average
 
 class Processor(
-    private val durationGenerator: DurationGenerator,
-    private val receivers: List<Processor>?
+    var durationGenerator: DurationGenerator,
+    var receivers: List<Processor>?
 ) : Block {
     data class Statistics(
         val totalRequests: Int,
@@ -29,7 +29,7 @@ class Processor(
     )
 
     fun enqueue(request: Request) {
-        println(this)
+//        println(this)
         queue.add(request)
     }
 

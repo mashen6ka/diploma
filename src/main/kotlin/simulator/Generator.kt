@@ -5,8 +5,8 @@ import time.DurationGenerator
 import mathutils.average
 
 class Generator(
-    private val durationGenerator: DurationGenerator,
-    private val receivers: List<Processor>?
+    var durationGenerator: DurationGenerator,
+    var receivers: List<Processor>?
 ) : Block {
     data class Statistics(
         val totalRequests: Int,

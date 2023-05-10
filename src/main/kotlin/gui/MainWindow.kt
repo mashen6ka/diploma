@@ -1,6 +1,6 @@
 package gui
 
-import simulator.Processor
+import simulator.*
 import java.awt.*
 import javax.swing.*
 import javax.swing.border.EmptyBorder
@@ -23,16 +23,38 @@ class MainWindow() {
     }
 
     private fun createWindowContent(): JPanel {
-        var contentPane = JPanel(GridBagLayout())
-        var blocksPanel = createBlocksPanel()
+        val contentPane = JPanel(GridBagLayout())
 
+        val blocksPanel = createBlocksPanel()
         contentPane.add(blocksPanel, GridBagConstraints().apply {
             fill = GridBagConstraints.HORIZONTAL
             gridx = 0
             gridy = 0
         })
 
+        val simulateButton = JButton("Моделировать")
+        contentPane.add(simulateButton, GridBagConstraints().apply {
+            fill = GridBagConstraints.HORIZONTAL
+            gridx = 0
+            gridy = 1
+        })
+        simulateButton.addActionListener{
+            simulate()
+        }
+
         return contentPane
+    }
+
+    private fun simulate() {
+        val processors = this.processorsPanel!!.getBlocksInfo().map{it.getBlock()}
+        val generators = this.generatorsPanel!!.getBlocksInfo().map{it.getBlock()}
+
+        val simulator = TimeBasedSimulator(generators, processors, 1)
+        val statistics = simulator.simulate(100)
+        println(statistics.elapsed)
+        statistics.generators.forEach { println(it) }
+        statistics.processors.forEach { println(it) }
+        println()
     }
 
     private fun createBlocksPanel(): JPanel {
