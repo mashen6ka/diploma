@@ -81,21 +81,21 @@ class BlockListPanel<T: BlockInfo>(
 //        })
 //    }
 
-    fun createAddButtonEvent(f: (selectedBlockInfo: BlockInfo, selectedIndex: Int) -> Any) {
+    fun createAddButtonEvent(f: (selectedBlockInfo: BlockInfo?, selectedIndex: Int?) -> Any) {
         val list = this.jlist
         this.addButton!!.addActionListener {
             f(list!!.selectedValue, list!!.selectedIndex)
         }
     }
 
-    fun createDeleteButtonEvent(f: (selectedBlockInfo: BlockInfo, selectedIndex: Int) -> Any) {
+    fun createDeleteButtonEvent(f: (selectedBlockInfo: BlockInfo?, selectedIndex: Int?) -> Any) {
         val list = this.jlist
         this.deleteButton!!.addActionListener {
             f(list!!.selectedValue, list!!.selectedIndex)
         }
     }
 
-    fun createUpdateButtonEvent(f: (selectedBlockInfo: BlockInfo, selectedIndex: Int) -> Any) {
+    fun createUpdateButtonEvent(f: (selectedBlockInfo: BlockInfo?, selectedIndex: Int?) -> Any) {
         val list = this.jlist
         this.updateButton!!.addActionListener {
             f(list!!.selectedValue, list!!.selectedIndex)

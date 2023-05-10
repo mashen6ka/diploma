@@ -47,7 +47,8 @@ class MainWindow() {
             this.generatorsPanel!!.addBlockInfo(durationGenerator, null)
         }
         this.generatorsPanel!!.createDeleteButtonEvent{ blockInfo, index ->
-            this.generatorsPanel!!.deleteBlockInfo(index)
+            if (blockInfo != null && index != null)
+                this.generatorsPanel!!.deleteBlockInfo(index)
         }
 
         this.processorsPanel!!.createUpdateButtonEvent(::createBlockModal)
@@ -56,7 +57,8 @@ class MainWindow() {
             this.processorsPanel!!.addBlockInfo(durationGenerator, null)
         }
         this.processorsPanel!!.createDeleteButtonEvent{ blockInfo, index ->
-            this.processorsPanel!!.deleteBlockInfo(index)
+            if (blockInfo != null && index != null)
+                this.processorsPanel!!.deleteBlockInfo(index)
         }
 
         val durationGenerator = UniformDurationGenerator(1, 10)
@@ -69,15 +71,9 @@ class MainWindow() {
         return panel
     }
 
-    private fun addEvent(blockInfo: BlockInfo, index: Int) {
+    private fun createBlockModal(blockInfo: BlockInfo?, index: Int?) {
+        if (blockInfo == null || index == null) return
 
-    }
-
-    private fun deleteEvent(blockInfo: BlockInfo, index: Int) {
-
-    }
-
-    private fun createBlockModal(blockInfo: BlockInfo, index: Int) {
         val modal = JDialog(this.frame, blockInfo.toString(), true)
         modal.isResizable = false
         val distributionPanel = DistributionPanel(blockInfo.getDurationGenerator())
