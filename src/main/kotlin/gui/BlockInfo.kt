@@ -1,7 +1,6 @@
 package gui
 
 import simulator.Block
-import simulator.Processor
 import time.DurationGenerator
 
 interface BlockInfo {

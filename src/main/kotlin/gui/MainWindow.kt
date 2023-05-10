@@ -1,24 +1,20 @@
 package gui
 
+import simulator.Processor
 import java.awt.*
 import javax.swing.*
 import javax.swing.border.EmptyBorder
 import time.UniformDurationGenerator
 
 class MainWindow() {
-    var frame: JFrame = JFrame("Modelling")
-    var generatorsInfo: MutableList<GeneratorInfo> = mutableListOf()
-    var processorsInfo: MutableList<ProcessorInfo> = mutableListOf()
+    private var frame: JFrame = JFrame("Modelling")
+    private var generatorsPanel: BlockListPanel<GeneratorInfo>? = null
+    private var processorsPanel: BlockListPanel<ProcessorInfo>? = null
 
     init {
         this.frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
         this.frame.preferredSize = Dimension(400, 300)
         this.frame.isResizable = false
-
-        var processorInfo = ProcessorInfo(1, UniformDurationGenerator(1, 10), null)
-        var generatorInfo = GeneratorInfo(1, UniformDurationGenerator(1, 10), listOf(processorInfo))
-        this.generatorsInfo.add(generatorInfo)
-        this.processorsInfo.add(processorInfo)
 
         frame.contentPane = createWindowContent()
         frame.pack()
@@ -40,86 +36,30 @@ class MainWindow() {
     }
 
     private fun createBlocksPanel(): JPanel {
-        var panel = JPanel()
+        val panel = JPanel()
 
-        var panelGen = createBlockPanel("Генераторы", this.generatorsInfo as MutableList<BlockInfo>)
-        var panelProc = createBlockPanel("Процессы",  this.processorsInfo as MutableList<BlockInfo>)
+        this.generatorsPanel = BlockListPanel("Генераторы", GeneratorInfo::class.java)
+        this.processorsPanel = BlockListPanel("Процессоры", ProcessorInfo::class.java)
 
-        panel.add(panelGen)
-        panel.add(panelProc)
+        this.generatorsPanel!!.addSelectEvent(::createAndShowModal)
+        this.processorsPanel!!.addSelectEvent(::createAndShowModal)
 
-        return panel
-    }
+        val durationGenerator = UniformDurationGenerator(1, 10)
+        val procIndex = this.processorsPanel!!.addBlockInfo(durationGenerator, null)
+        val genIndex = this.generatorsPanel!!.addBlockInfo(durationGenerator, null)
 
-    private fun createBlockPanel(blockName: String, blocksInfo: MutableList<BlockInfo>): JPanel {
-        var panel = JPanel(GridBagLayout())
-        panel.setBorder(BorderFactory.createTitledBorder("$blockName:"))
-
-        var list = createBlockList(blocksInfo)
-        var scroll = JScrollPane(list)
-
-        var addButton = JButton("+")
-        var delButton = JButton("-")
-
-        panel.add(scroll, GridBagConstraints().apply {
-            gridwidth = 2
-            weightx = 1.0
-            weighty = 1.0
-            insets = Insets(0, 5, 0, 5)
-            fill = GridBagConstraints.HORIZONTAL
-        })
-
-        panel.add(addButton, GridBagConstraints().apply {
-            gridx = 0
-            gridy = 1
-            weightx = 1.0
-            weighty = 1.0
-            fill = GridBagConstraints.HORIZONTAL
-        })
-
-        panel.add(delButton, GridBagConstraints().apply {
-            gridx = 1
-            gridy = 1
-            weightx = 1.0
-            weighty = 1.0
-            fill = GridBagConstraints.HORIZONTAL
-        })
+        panel.add(this.generatorsPanel!!.jpanel)
+        panel.add(this.processorsPanel!!.jpanel)
 
         return panel
     }
 
-    private fun createBlockList(blocksInfo: MutableList<BlockInfo>): JList<BlockInfo> {
-        val model = DefaultListModel<BlockInfo>()
-        for (item in blocksInfo) {
-            model.addElement(item)
-        }
-        val list = JList(model)
-        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
-        list.setVisibleRowCount(5)
-        list.addMouseListener(object : java.awt.event.MouseAdapter() {
-            override fun mouseClicked(e: java.awt.event.MouseEvent) {
-                if (e.clickCount == 1) {
-                    val selectedValue = list.selectedValue
-                    val selectedIndex = list.selectedIndex
-                    if (selectedValue != null && selectedIndex != null) {
-                        createAndShowModal(selectedValue, selectedIndex)
-                    }
-                }
-            }
-        })
-        val renderer = DefaultListCellRenderer()
-        renderer.horizontalAlignment = JLabel.CENTER
-        list.cellRenderer = renderer
-
-        return list
-    }
-
-    private fun createAndShowModal(blockInfo: BlockInfo, blockIndex: Int) {
+    private fun createAndShowModal(blockInfo: BlockInfo, index: Int) {
         val modal = JDialog(this.frame, blockInfo.toString(), true)
         modal.isResizable = false
-
+        println("BLOCK ${blockInfo.getReceiversInfo()}")
         val distributionPanel = DistributionPanel(blockInfo.getDurationGenerator())
-        val receiversPanel = ReceiversPanel(blockInfo.getReceiversInfo(), this.processorsInfo)
+        val receiversPanel = ReceiversPanel(blockInfo.getReceiversInfo(), this.processorsPanel!!.getBlocksInfo())
 
 
         val panelButton = JPanel(FlowLayout(FlowLayout.CENTER))
@@ -132,7 +72,9 @@ class MainWindow() {
             var receiversInfo = receiversPanel.getReceiversInfo()
             if (durationGenerator != null) {
                 if (blockInfo is GeneratorInfo)
-                    this.generatorsInfo[blockIndex].update(durationGenerator, receiversInfo)
+                    this.generatorsPanel!!.updateBlockInfo(index, durationGenerator, receiversInfo)
+                else if (blockInfo is ProcessorInfo)
+                    this.processorsPanel!!.updateBlockInfo(index, durationGenerator, receiversInfo)
                 modal.dispose()
             }
         }
