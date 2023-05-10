@@ -7,47 +7,78 @@ import javax.swing.*
 
 class ParamField(
 	var name: String,
-	var field: JTextField
+	var field: JTextField,
 ) {}
+
+class Param(
+	var name: String,
+){
+	var value: Any? = null
+	constructor(name: String, value: Any?) : this(name) {
+		this.value = value
+	}
+}
 
 data class Distribution(
 	var name: String,
 	var params: MutableList<ParamField>
 ) {}
 
-class DistributionPanel() {
+class DistributionPanel(var currentGenerator: DurationGenerator) {
 	var panel: JPanel = JPanel()
 		private set
 	private var distributions: MutableList<Distribution> = mutableListOf()
-	var current: Distribution? = null
+	var currentDistribution: Distribution? = null
 		private set
-
 	init {
 		this.panel = JPanel()
 		this.panel.setBorder(BorderFactory.createTitledBorder("Распределение:"))
-		val comboBoxDistr = JComboBox(arrayOf("Равномерное", "Равномерное (пиковое)"))
-		this.panel.add(comboBoxDistr)
+		val comboBox = JComboBox(arrayOf("Равномерное", "Равномерное (пиковое)"))
+		this.panel.add(comboBox)
 	
 		var panelCard = JPanel(CardLayout())
-		panelCard.add(createDistributionPanel("Равномерное", listOf("Min", "Max")), "Равномерное")
-		panelCard.add(createDistributionPanel("Равномерное (пиковое)", listOf("Min", "Max", "Длина пика", "Частота пика")), "Равномерное (пиковое)")
+
+		val uniformParams = listOf<Param>(Param("Min"), Param("Max"))
+		panelCard.add(createDistributionPanel("Равномерное", uniformParams), "Равномерное")
+
+		val uniformPeakParams = listOf<Param>(Param("Длина пика"), Param("Частота пика"))
+		panelCard.add(createDistributionPanel("Равномерное (пиковое)", uniformPeakParams), "Равномерное (пиковое)")
+
 		this.panel.add(panelCard, BorderLayout.CENTER)
 
-		val defaultDistr = "Равномерное"
-		comboBoxDistr.setSelectedItem(defaultDistr)
-		this.current = this.distributions.firstOrNull({ it.name ==  defaultDistr})
-		comboBoxDistr.addActionListener {
-				val selected = comboBoxDistr.selectedItem.toString()
+		setCurrentInfo(comboBox)
+		comboBox.addActionListener {
+				val selected = comboBox.selectedItem.toString()
 				val cardLayout = panelCard.layout as CardLayout
 				cardLayout.show(panelCard, selected)
-				this.current = this.distributions.firstOrNull({ it.name == selected })
+				this.currentDistribution = this.distributions.firstOrNull({ it.name == selected })
 		}
 	}
 
-	public fun getDurationGenerator(): DurationGenerator? {
-		if (this.current!!.name == "Uniform") {
-			val minParam = this.current!!.params.firstOrNull({ it.name == "Min" })
-			val maxParam = this.current!!.params.firstOrNull({ it.name == "Max" })
+	private fun setCurrentInfo(comboBox: JComboBox<String>)
+	{
+		if (this.currentGenerator is UniformDurationGenerator) {
+			val distrName = "Равномерное"
+			var distr = this.distributions.firstOrNull({ it.name ==  distrName})
+			var minField = distr!!.params.firstOrNull({ it.name == "Min" })!!.field
+			minField.text = "${(this.currentGenerator as UniformDurationGenerator).getMin()}"
+
+
+			var maxField = distr!!.params.firstOrNull({ it.name == "Max" })!!.field
+			maxField.text = "${(this.currentGenerator as UniformDurationGenerator).getMax()}"
+
+			comboBox.setSelectedItem(distrName)
+			this.currentDistribution = this.distributions.firstOrNull({ it.name ==  distrName})
+		} else {
+
+		}
+
+	}
+
+	fun getDurationGenerator(): DurationGenerator? {
+		if (this.currentDistribution!!.name == "Uniform") {
+			val minParam = this.currentDistribution!!.params.firstOrNull({ it.name == "Min" })
+			val maxParam = this.currentDistribution!!.params.firstOrNull({ it.name == "Max" })
 
 			val min = minParam!!.field.getText()
 			val max = maxParam!!.field.getText()
@@ -66,25 +97,26 @@ class DistributionPanel() {
 		}
 	}
 
-	private fun createDistributionPanel(distrName: String, paramsNames: List<String>): JPanel {
+	private fun createDistributionPanel(distrName: String, params: List<Param>): JPanel {
 		val panel = JPanel(GridBagLayout())
 		val c = GridBagConstraints()
 
-		var params = mutableListOf<ParamField>()
-		paramsNames.forEachIndexed { i, p ->
+		var paramFields = mutableListOf<ParamField>()
+		params.forEachIndexed { i, p ->
 			c.gridx = 0
 			c.gridy = i
 			c.anchor = GridBagConstraints.LINE_END
-			panel.add(JLabel("$p:"), c)
+			panel.add(JLabel("${p.name}:"), c)
 
 			c.gridx = 1
 			c.gridy = i
 			c.anchor = GridBagConstraints.LINE_END
 			var field = JTextField(7)
+
 			panel.add(field, c)
-			params.add(ParamField(p, field))
+			paramFields.add(ParamField(p.name, field))
 		}
-		this.distributions.add(Distribution(distrName, params))
+		this.distributions.add(Distribution(distrName, paramFields))
 		return panel
 	}
 }
