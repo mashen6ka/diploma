@@ -111,7 +111,7 @@ class BlockListPanel<T: BlockInfo>(
     }
 
     fun deleteBlockInfo(index: Int) {
-        this.jmodel!!.remove(index)
+        this.jmodel.remove(index)
     }
 
     fun updateBlockInfo(index: Int, durationGenerator: DurationGenerator, receiversInfo: List<ProcessorInfo>?) {

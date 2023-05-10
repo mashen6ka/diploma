@@ -57,8 +57,10 @@ class MainWindow() {
             this.processorsPanel!!.addBlockInfo(durationGenerator, null)
         }
         this.processorsPanel!!.createDeleteButtonEvent{ blockInfo, index ->
-            if (blockInfo != null && index != null)
+            if (blockInfo != null && index != null) {
+//                 TODO: удалять из ресиверов генераторов/процессоров удаляемый процессор
                 this.processorsPanel!!.deleteBlockInfo(index)
+            }
         }
 
         val durationGenerator = UniformDurationGenerator(1, 10)

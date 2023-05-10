@@ -44,10 +44,14 @@ class ReceiversPanel(var currentReceiversInfo: List<ProcessorInfo>?, var process
 
     private fun setCurrentInfo(list: JList<ProcessorInfo>) {
         if (this.currentReceiversInfo == null) return
+        if (this.processorsInfo == null) return
 
-        for (item in this.currentReceiversInfo!!) {
-            list.setSelectedValue(item, true)
+        val selectedIndices = mutableListOf<Int>()
+        for (i in this.currentReceiversInfo!!.indices) {
+            selectedIndices.add(this.processorsInfo!!.indexOf(this.currentReceiversInfo!![i]))
         }
+
+        list.selectedIndices = selectedIndices.toIntArray()
         this.selectedReceiversInfo = this.currentReceiversInfo
     }
 
