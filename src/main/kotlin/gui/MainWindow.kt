@@ -13,7 +13,7 @@ class MainWindow() {
 
     init {
         this.frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-        this.frame.preferredSize = Dimension(400, 300)
+        this.frame.preferredSize = Dimension(600, 300)
         this.frame.isResizable = false
 
         frame.contentPane = createWindowContent()
@@ -41,8 +41,23 @@ class MainWindow() {
         this.generatorsPanel = BlockListPanel("Генераторы", GeneratorInfo::class.java)
         this.processorsPanel = BlockListPanel("Процессоры", ProcessorInfo::class.java)
 
-        this.generatorsPanel!!.addSelectEvent(::createAndShowModal)
-        this.processorsPanel!!.addSelectEvent(::createAndShowModal)
+        this.generatorsPanel!!.createUpdateButtonEvent(::createBlockModal)
+        this.generatorsPanel!!.createAddButtonEvent{ blockInfo, index ->
+            val durationGenerator = UniformDurationGenerator(1, 10)
+            this.generatorsPanel!!.addBlockInfo(durationGenerator, null)
+        }
+        this.generatorsPanel!!.createDeleteButtonEvent{ blockInfo, index ->
+            this.generatorsPanel!!.deleteBlockInfo(index)
+        }
+
+        this.processorsPanel!!.createUpdateButtonEvent(::createBlockModal)
+        this.processorsPanel!!.createAddButtonEvent{ blockInfo, index ->
+            val durationGenerator = UniformDurationGenerator(1, 10)
+            this.processorsPanel!!.addBlockInfo(durationGenerator, null)
+        }
+        this.processorsPanel!!.createDeleteButtonEvent{ blockInfo, index ->
+            this.processorsPanel!!.deleteBlockInfo(index)
+        }
 
         val durationGenerator = UniformDurationGenerator(1, 10)
         val procIndex = this.processorsPanel!!.addBlockInfo(durationGenerator, null)
@@ -54,10 +69,17 @@ class MainWindow() {
         return panel
     }
 
-    private fun createAndShowModal(blockInfo: BlockInfo, index: Int) {
+    private fun addEvent(blockInfo: BlockInfo, index: Int) {
+
+    }
+
+    private fun deleteEvent(blockInfo: BlockInfo, index: Int) {
+
+    }
+
+    private fun createBlockModal(blockInfo: BlockInfo, index: Int) {
         val modal = JDialog(this.frame, blockInfo.toString(), true)
         modal.isResizable = false
-        println("BLOCK ${blockInfo.getReceiversInfo()}")
         val distributionPanel = DistributionPanel(blockInfo.getDurationGenerator())
         val receiversPanel = ReceiversPanel(blockInfo.getReceiversInfo(), this.processorsPanel!!.getBlocksInfo())
 

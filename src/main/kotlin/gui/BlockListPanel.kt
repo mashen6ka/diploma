@@ -16,6 +16,10 @@ class BlockListPanel<T: BlockInfo>(
     private var jmodel: DefaultListModel<BlockInfo> = DefaultListModel<BlockInfo>()
     private var blockIndex: Int = 0
 
+    private var addButton: JButton? = null
+    private var deleteButton: JButton? = null
+    private var updateButton: JButton? = null
+
     init {
         this.jpanel = JPanel(GridBagLayout())
         this.jpanel.setBorder(BorderFactory.createTitledBorder("${this.blockName}:"))
@@ -23,27 +27,21 @@ class BlockListPanel<T: BlockInfo>(
         this.jlist = createBlockList()
         var scroll = JScrollPane(this.jlist)
 
-        var addButton = JButton("+")
-        addButton.addActionListener {
-            addBlockInfo(UniformDurationGenerator(1, 10), null)
-        }
-
-        var delButton = JButton("-")
-        delButton.addActionListener {
-            val selected = this.jlist!!.selectedValue
-            if (selected != null)
-                deleteBlockInfo(this.jlist!!.selectedIndex)
-        }
+        this.addButton = JButton("+")
+        this.deleteButton = JButton("-")
+        this.updateButton = JButton("edit")
 
         this.jpanel.add(scroll, GridBagConstraints().apply {
-            gridwidth = 2
+            gridx = 0
+            gridy = 0
+            gridwidth = 3
             weightx = 1.0
             weighty = 1.0
             insets = Insets(0, 5, 0, 5)
             fill = GridBagConstraints.HORIZONTAL
         })
 
-        this.jpanel.add(addButton, GridBagConstraints().apply {
+        this.jpanel.add(this.addButton, GridBagConstraints().apply {
             gridx = 0
             gridy = 1
             weightx = 1.0
@@ -51,8 +49,16 @@ class BlockListPanel<T: BlockInfo>(
             fill = GridBagConstraints.HORIZONTAL
         })
 
-        this.jpanel.add(delButton, GridBagConstraints().apply {
+        this.jpanel.add(this.deleteButton, GridBagConstraints().apply {
             gridx = 1
+            gridy = 1
+            weightx = 1.0
+            weighty = 1.0
+            fill = GridBagConstraints.HORIZONTAL
+        })
+
+        this.jpanel.add(this.updateButton, GridBagConstraints().apply {
+            gridx = 2
             gridy = 1
             weightx = 1.0
             weighty = 1.0
@@ -60,19 +66,40 @@ class BlockListPanel<T: BlockInfo>(
         })
     }
 
-    fun addSelectEvent(f: (selectedBlockInfo: BlockInfo, selectedIndex: Int) -> Any) {
-        var list = this.jlist
-        list!!.addMouseListener(object : java.awt.event.MouseAdapter() {
-            override fun mouseClicked(e: java.awt.event.MouseEvent) {
-                if (e.clickCount == 1) {
-                    val selectedValue = list.selectedValue
-                    val selectedIndex = list.selectedIndex
-                    if (selectedValue != null) {
-                        f(selectedValue, selectedIndex)
-                    }
-                }
-            }
-        })
+//    fun addSelectEvent(f: (selectedBlockInfo: BlockInfo, selectedIndex: Int) -> Any) {
+//        var list = this.jlist
+//        list!!.addMouseListener(object : java.awt.event.MouseAdapter() {
+//            override fun mouseClicked(e: java.awt.event.MouseEvent) {
+//                if (e.clickCount == 1) {
+//                    val selectedValue = list.selectedValue
+//                    val selectedIndex = list.selectedIndex
+//                    if (selectedValue != null) {
+//                        f(selectedValue, selectedIndex)
+//                    }
+//                }
+//            }
+//        })
+//    }
+
+    fun createAddButtonEvent(f: (selectedBlockInfo: BlockInfo, selectedIndex: Int) -> Any) {
+        val list = this.jlist
+        this.addButton!!.addActionListener {
+            f(list!!.selectedValue, list!!.selectedIndex)
+        }
+    }
+
+    fun createDeleteButtonEvent(f: (selectedBlockInfo: BlockInfo, selectedIndex: Int) -> Any) {
+        val list = this.jlist
+        this.deleteButton!!.addActionListener {
+            f(list!!.selectedValue, list!!.selectedIndex)
+        }
+    }
+
+    fun createUpdateButtonEvent(f: (selectedBlockInfo: BlockInfo, selectedIndex: Int) -> Any) {
+        val list = this.jlist
+        this.updateButton!!.addActionListener {
+            f(list!!.selectedValue, list!!.selectedIndex)
+        }
     }
 
     fun addBlockInfo(durationGenerator: DurationGenerator, receiversInfo: List<ProcessorInfo>?): Int {
