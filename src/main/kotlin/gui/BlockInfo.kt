@@ -5,8 +5,9 @@ import simulator.Processor
 import time.DurationGenerator
 
 interface BlockInfo {
-    fun update(durationGenerator: DurationGenerator, receivers: List<Processor>?)
+    fun update(durationGenerator: DurationGenerator, receivers: List<ProcessorInfo>?)
     fun getBlock(): Block
     fun getDurationGenerator(): DurationGenerator
-    fun getReceivers(): List<Processor>?
+    fun getIndex(): Int
+    fun getReceiversInfo(): List<ProcessorInfo>?
 }

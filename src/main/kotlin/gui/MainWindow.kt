@@ -16,7 +16,7 @@ class MainWindow() {
         this.frame.isResizable = false
 
         var processorInfo = ProcessorInfo(1, UniformDurationGenerator(1, 10), null)
-        var generatorInfo = GeneratorInfo(1, UniformDurationGenerator(1, 10), listOf(processorInfo.getBlock()))
+        var generatorInfo = GeneratorInfo(1, UniformDurationGenerator(1, 10), listOf(processorInfo))
         this.generatorsInfo.add(generatorInfo)
         this.processorsInfo.add(processorInfo)
 
@@ -93,7 +93,6 @@ class MainWindow() {
         for (item in blocksInfo) {
             model.addElement(item)
         }
-
         val list = JList(model)
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
         list.setVisibleRowCount(5)
@@ -119,26 +118,9 @@ class MainWindow() {
         val modal = JDialog(this.frame, blockInfo.toString(), true)
         modal.isResizable = false
 
-        val panelDistr = DistributionPanel(blockInfo.getDurationGenerator())
+        val distributionPanel = DistributionPanel(blockInfo.getDurationGenerator())
+        val receiversPanel = ReceiversPanel(blockInfo.getReceiversInfo(), this.processorsInfo)
 
-        val panelReceivers = JPanel(GridBagLayout())
-        panelReceivers.setBorder(BorderFactory.createTitledBorder("Получатели:"))
-        val listReceivers = JList(arrayOf("Item 1", "Item 2", "Item 3", "Item 4", "Item 5"))
-        listReceivers.selectionMode = ListSelectionModel.MULTIPLE_INTERVAL_SELECTION
-        val renderer = DefaultListCellRenderer()
-        renderer.horizontalAlignment = JLabel.CENTER
-        listReceivers.cellRenderer = renderer
-
-        listReceivers.addListSelectionListener { e ->
-            if (!e.valueIsAdjusting) {
-                val selected = listReceivers.selectedValuesList
-                println("Selected items: $selected")
-            }
-        }
-        panelReceivers.add(listReceivers, GridBagConstraints().apply {
-            weightx = 1.0
-            fill = GridBagConstraints.HORIZONTAL
-        })
 
         val panelButton = JPanel(FlowLayout(FlowLayout.CENTER))
         val okButton = JButton("OK")
@@ -146,20 +128,24 @@ class MainWindow() {
 
 
         okButton.addActionListener {
-            var durationGenerator = panelDistr.getDurationGenerator()
-            if (durationGenerator != null)
+            var durationGenerator = distributionPanel.getDurationGenerator()
+            var receiversInfo = receiversPanel.getReceiversInfo()
+            if (durationGenerator != null) {
+                if (blockInfo is GeneratorInfo)
+                    this.generatorsInfo[blockIndex].update(durationGenerator, receiversInfo)
                 modal.dispose()
+            }
         }
 
         val panelMain = JPanel(GridBagLayout())
         panelMain.border = EmptyBorder(10, 10, 10, 10)
-        panelMain.add(panelDistr.panel, GridBagConstraints().apply{
+        panelMain.add(distributionPanel.jpanel, GridBagConstraints().apply{
             gridx = 0
             gridy = 0
             fill = GridBagConstraints.HORIZONTAL
         })
 
-        panelMain.add(panelReceivers, GridBagConstraints().apply{
+        panelMain.add(receiversPanel.jpanel, GridBagConstraints().apply{
             gridx = 0
             gridy = 1
             fill = GridBagConstraints.HORIZONTAL

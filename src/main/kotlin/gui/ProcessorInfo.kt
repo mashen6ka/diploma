@@ -6,24 +6,33 @@ import time.DurationGenerator
 class ProcessorInfo(
     private var index: Int,
     private var durationGenerator: DurationGenerator,
-    private var receivers: List<Processor>?
+    private var receiversInfo: List<ProcessorInfo>?
 ): BlockInfo {
 
-    override fun update(durationGenerator: DurationGenerator, receivers: List<Processor>?) {
+    override fun update(durationGenerator: DurationGenerator, receiversInfo: List<ProcessorInfo>?) {
         this.durationGenerator = durationGenerator
-        this.receivers = receivers
+        this.receiversInfo = receiversInfo
     }
 
     override fun getBlock(): Processor {
-        return Processor(this.durationGenerator, this.receivers)
+        if (this.receiversInfo == null)
+            return Processor(this.durationGenerator, null)
+        else {
+            val receivers = this.receiversInfo!!.map { it.getBlock() }
+            return Processor(this.durationGenerator, receivers)
+        }
     }
 
     override fun getDurationGenerator(): DurationGenerator {
         return durationGenerator
     }
 
-    override fun getReceivers(): List<Processor>? {
-        return receivers
+    override fun getReceiversInfo(): List<ProcessorInfo>? {
+        return receiversInfo
+    }
+
+    override fun getIndex(): Int {
+        return  index
     }
 
     override fun toString(): String {

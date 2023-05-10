@@ -25,16 +25,16 @@ data class Distribution(
 ) {}
 
 class DistributionPanel(var currentGenerator: DurationGenerator) {
-	var panel: JPanel = JPanel()
+	var jpanel: JPanel = JPanel()
 		private set
 	private var distributions: MutableList<Distribution> = mutableListOf()
 	var currentDistribution: Distribution? = null
 		private set
 	init {
-		this.panel = JPanel()
-		this.panel.setBorder(BorderFactory.createTitledBorder("Распределение:"))
+		this.jpanel = JPanel()
+		this.jpanel.setBorder(BorderFactory.createTitledBorder("Распределение:"))
 		val comboBox = JComboBox(arrayOf("Равномерное", "Равномерное (пиковое)"))
-		this.panel.add(comboBox)
+		this.jpanel.add(comboBox)
 	
 		var panelCard = JPanel(CardLayout())
 
@@ -44,7 +44,7 @@ class DistributionPanel(var currentGenerator: DurationGenerator) {
 		val uniformPeakParams = listOf<Param>(Param("Длина пика"), Param("Частота пика"))
 		panelCard.add(createDistributionPanel("Равномерное (пиковое)", uniformPeakParams), "Равномерное (пиковое)")
 
-		this.panel.add(panelCard, BorderLayout.CENTER)
+		this.jpanel.add(panelCard, BorderLayout.CENTER)
 
 		setCurrentInfo(comboBox)
 		comboBox.addActionListener {
@@ -76,7 +76,7 @@ class DistributionPanel(var currentGenerator: DurationGenerator) {
 	}
 
 	fun getDurationGenerator(): DurationGenerator? {
-		if (this.currentDistribution!!.name == "Uniform") {
+		if (this.currentDistribution!!.name == "Равномерное") {
 			val minParam = this.currentDistribution!!.params.firstOrNull({ it.name == "Min" })
 			val maxParam = this.currentDistribution!!.params.firstOrNull({ it.name == "Max" })
 
