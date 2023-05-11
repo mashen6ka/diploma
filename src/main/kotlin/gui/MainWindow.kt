@@ -10,10 +10,10 @@ class MainWindow() {
     private var frame: JFrame = JFrame("Modelling")
     private var generatorsPanel: BlockListPanel<GeneratorInfo>? = null
     private var processorsPanel: BlockListPanel<ProcessorInfo>? = null
+    private var statisticsPanel: StatisticsPanel? = null
 
     init {
         this.frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-        this.frame.preferredSize = Dimension(600, 300)
         this.frame.isResizable = false
 
         frame.contentPane = createWindowContent()
@@ -24,6 +24,7 @@ class MainWindow() {
 
     private fun createWindowContent(): JPanel {
         val contentPane = JPanel(GridBagLayout())
+        contentPane.border = EmptyBorder(10, 10, 10, 10)
 
         val blocksPanel = createBlocksPanel()
         contentPane.add(blocksPanel, GridBagConstraints().apply {
@@ -42,6 +43,13 @@ class MainWindow() {
             simulate()
         }
 
+        this.statisticsPanel = StatisticsPanel()
+        contentPane.add(this.statisticsPanel!!.jpanel, GridBagConstraints().apply {
+            fill = GridBagConstraints.HORIZONTAL
+            gridx = 0
+            gridy = 2
+        })
+
         return contentPane
     }
 
@@ -54,14 +62,8 @@ class MainWindow() {
 
         val simulator = TimeBasedSimulator(generators, processors, 1)
         val statistics = simulator.simulate(100)
-        println(statistics.elapsed)
-        statistics.generators.forEachIndexed {i, g ->
-            println("${generatorsInfo[i].toString()}: ${g}")
-        }
-        statistics.processors.forEachIndexed {i, g ->
-            println("${processorsInfo[i].toString()}: ${g}")
-        }
-        println()
+        this.statisticsPanel!!.update(statistics, generatorsInfo, processorsInfo)
+
     }
 
     private fun createBlocksPanel(): JPanel {
