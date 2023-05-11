@@ -29,7 +29,7 @@ class ReceiversPanel(var currentReceiversInfo: List<ProcessorInfo>?, var process
         list.addListSelectionListener { e ->
             if (!e.valueIsAdjusting) {
                 val selected = list.selectedValuesList
-                println("Selected items: $selected")
+//                println("Selected items: $selected")
                 if (selected == listOf<ProcessorInfo>())
                     this.selectedReceiversInfo = null
                 else

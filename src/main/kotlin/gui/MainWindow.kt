@@ -46,14 +46,21 @@ class MainWindow() {
     }
 
     private fun simulate() {
-        val processors = this.processorsPanel!!.getBlocksInfo().map{it.getBlock()}
-        val generators = this.generatorsPanel!!.getBlocksInfo().map{it.getBlock()}
+        val processorsInfo = this.processorsPanel!!.getBlocksInfo()
+        val generatorsInfo = this.generatorsPanel!!.getBlocksInfo()
+
+        val processors = processorsInfo.map{it.getBlock()}
+        val generators = generatorsInfo.map{it.getBlock()}
 
         val simulator = TimeBasedSimulator(generators, processors, 1)
         val statistics = simulator.simulate(100)
         println(statistics.elapsed)
-        statistics.generators.forEach { println(it) }
-        statistics.processors.forEach { println(it) }
+        statistics.generators.forEachIndexed {i, g ->
+            println("${generatorsInfo[i].toString()}: ${g}")
+        }
+        statistics.processors.forEachIndexed {i, g ->
+            println("${processorsInfo[i].toString()}: ${g}")
+        }
         println()
     }
 

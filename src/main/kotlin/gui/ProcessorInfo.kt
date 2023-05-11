@@ -49,6 +49,6 @@ class ProcessorInfo(
     }
 
     override fun toString(): String {
-        return "PROCESSOR${index}"
+        return "PROCESSOR${index+1}"
     }
 }
