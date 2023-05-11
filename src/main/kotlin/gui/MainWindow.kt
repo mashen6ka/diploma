@@ -11,6 +11,7 @@ class MainWindow() {
     private var generatorsPanel: BlockListPanel<GeneratorInfo>? = null
     private var processorsPanel: BlockListPanel<ProcessorInfo>? = null
     private var statisticsPanel: StatisticsPanel? = null
+    private var settingsPanel: SettingsPanel? = null
 
     init {
         this.frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
@@ -26,18 +27,25 @@ class MainWindow() {
         val contentPane = JPanel(GridBagLayout())
         contentPane.border = EmptyBorder(10, 10, 10, 10)
 
+        this.settingsPanel = SettingsPanel()
+        contentPane.add(this.settingsPanel!!.jpanel, GridBagConstraints().apply {
+            fill = GridBagConstraints.HORIZONTAL
+            gridx = 0
+            gridy = 0
+        })
+
         val blocksPanel = createBlocksPanel()
         contentPane.add(blocksPanel, GridBagConstraints().apply {
             fill = GridBagConstraints.HORIZONTAL
             gridx = 0
-            gridy = 0
+            gridy = 1
         })
 
         val simulateButton = JButton("Моделировать")
         contentPane.add(simulateButton, GridBagConstraints().apply {
             fill = GridBagConstraints.HORIZONTAL
             gridx = 0
-            gridy = 1
+            gridy = 2
         })
         simulateButton.addActionListener{
             simulate()
@@ -47,7 +55,7 @@ class MainWindow() {
         contentPane.add(this.statisticsPanel!!.jpanel, GridBagConstraints().apply {
             fill = GridBagConstraints.HORIZONTAL
             gridx = 0
-            gridy = 2
+            gridy = 3
         })
 
         return contentPane
@@ -60,9 +68,27 @@ class MainWindow() {
         val processors = processorsInfo.map{it.getBlock()}
         val generators = generatorsInfo.map{it.getBlock()}
 
-        val simulator = TimeBasedSimulator(generators, processors, 1)
-        val statistics = simulator.simulate(100)
-        this.statisticsPanel!!.update(statistics, generatorsInfo, processorsInfo)
+        var simulator: Simulator? = null
+        if (this.settingsPanel!!.getMethod() == Method.HYBRID.value) {
+            val arraySize = this.settingsPanel!!.getArraySize()
+            val tableWidth = this.settingsPanel!!.getTableWidth()
+            if (arraySize != null && tableWidth != null)
+                simulator = HybridSimulator(generators, processors, arraySize, tableWidth)
+        } else if (this.settingsPanel!!.getMethod() == Method.TIMEBASED.value) {
+            val deltaT = this.settingsPanel!!.getDeltaT()
+            if (deltaT != null)
+                simulator = TimeBasedSimulator(generators, processors, deltaT)
+        } else if (this.settingsPanel!!.getMethod() == Method.EVENTBASED.value) {
+            simulator = EventBasedSimulator(generators, processors)
+        }
+
+        if (simulator != null) {
+            val time = this.settingsPanel!!.getTime()
+            if (time != null) {
+                val statistics = simulator.simulate(time)
+                this.statisticsPanel!!.update(statistics, generatorsInfo, processorsInfo)
+            }
+        }
 
     }
 

@@ -36,7 +36,7 @@ class DistributionPanel(var currentGenerator: DurationGenerator) {
 		val comboBox = JComboBox(arrayOf("Равномерное", "Равномерное (пиковое)"))
 		this.jpanel.add(comboBox)
 	
-		var panelCard = JPanel(CardLayout())
+		val panelCard = JPanel(CardLayout())
 
 		val uniformParams = listOf<Param>(Param("Min"), Param("Max"))
 		panelCard.add(createDistributionPanel("Равномерное", uniformParams), "Равномерное")
@@ -67,7 +67,7 @@ class DistributionPanel(var currentGenerator: DurationGenerator) {
 			var maxField = distr!!.params.firstOrNull({ it.name == "Max" })!!.field
 			maxField.text = "${(this.currentGenerator as UniformDurationGenerator).getMax()}"
 
-			comboBox.setSelectedItem(distrName)
+			comboBox.selectedItem = distrName
 			this.currentDistribution = this.distributions.firstOrNull({ it.name ==  distrName})
 		} else {
 
