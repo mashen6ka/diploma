@@ -48,7 +48,8 @@ class ReceiversPanel(var currentReceiversInfo: List<ProcessorInfo>?, var process
 
         val selectedIndices = mutableListOf<Int>()
         for (i in this.currentReceiversInfo!!.indices) {
-            selectedIndices.add(this.processorsInfo!!.indexOf(this.currentReceiversInfo!![i]))
+            selectedIndices.add(this.processorsInfo!!.indexOfFirst{
+                it.getIndex() == this.currentReceiversInfo!![i].getIndex()})
         }
 
         list.selectedIndices = selectedIndices.toIntArray()

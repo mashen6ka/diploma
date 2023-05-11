@@ -89,7 +89,6 @@ class MainWindow() {
                 this.statisticsPanel!!.update(statistics, generatorsInfo, processorsInfo)
             }
         }
-
     }
 
     private fun createBlocksPanel(): JPanel {
@@ -136,6 +135,7 @@ class MainWindow() {
         val modal = JDialog(this.frame, blockInfo.toString(), true)
         modal.isResizable = false
         val distributionPanel = DistributionPanel(blockInfo.getDurationGenerator())
+
         val receiversPanel = ReceiversPanel(blockInfo.getReceiversInfo(), this.processorsPanel!!.getBlocksInfo())
 
 

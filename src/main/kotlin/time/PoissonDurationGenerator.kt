@@ -20,4 +20,16 @@ class PoissonDurationGenerator(
         counter++
         return random.nextInt(min, max + 1)
     }
+
+    fun getMin(): Time {
+        return min
+    }
+
+    fun getMax(): Time {
+        return max
+    }
+
+    fun getPeakLength(): Time {
+        return period
+    }
 }

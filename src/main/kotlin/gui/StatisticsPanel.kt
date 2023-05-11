@@ -49,6 +49,7 @@ class StatisticsPanel() {
             this.jtextArea.append("Average Processing Time: ${g.averageProcessingTime}\n")
             this.jtextArea.append("Average Waiting Time: ${g.averageWaitingTime}\n\n")
         }
+        this.jtextArea.caretPosition = 0
         this.jtextArea.isEditable = false
     }
 
