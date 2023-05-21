@@ -17,11 +17,11 @@ class Generator(
     private var currentStartTime: Time = 0
     private var currentFinishTime: Time = 0
     private var totalRequests: Int = 0
-    private var totalGenerationDuration: Time = 0
+    private var totalGenerationTime: Time = 0
 
     fun statistics(): Statistics = Statistics(
         totalRequests = totalRequests,
-        averageGenerationTime = average(totalGenerationDuration, totalRequests)
+        averageGenerationTime = average(totalGenerationTime, totalRequests)
     )
 
     override fun cleanupState() {
@@ -29,7 +29,7 @@ class Generator(
         currentStartTime = 0
         currentFinishTime = 0
         totalRequests = 0
-        totalGenerationDuration = 0
+        totalGenerationTime = 0
     }
 
     override fun currentFinishTime(): Time = currentFinishTime
@@ -49,7 +49,7 @@ class Generator(
         if (currentRequest == null) return null
 
         totalRequests += 1
-        totalGenerationDuration += currentFinishTime - currentStartTime
+        totalGenerationTime += currentFinishTime - currentStartTime
 
         val receiver = receivers?.minByOrNull { it.queueSize() }
         receiver?.enqueue(currentRequest!!)

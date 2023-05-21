@@ -52,7 +52,7 @@ class Processor(
             return null;
 
         val finishTime = currentTime + durationGenerator.generate()
-        currentRequest = queue.first()
+        currentRequest = queue.removeFirst()
         currentStartTime = currentTime
         currentFinishTime = finishTime
         totalWaitingTime += currentTime - currentRequest!!.timeIn
