@@ -45,7 +45,7 @@ class ProcessorInfo(
     }
 
     override fun getIndex(): Int {
-        return  index
+        return index
     }
 
     override fun toString(): String {

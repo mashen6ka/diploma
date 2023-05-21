@@ -37,17 +37,17 @@ class StatisticsPanel() {
         clear()
 
         this.jtextArea.isEditable = true
-        this.jtextArea.append("Elapsed Time: ${statistics.elapsed} ms\n\n")
+        this.jtextArea.append("Время выполнения: ${statistics.elapsed} (мс)\n\n")
         statistics.generators.forEachIndexed {i, g ->
             this.jtextArea.append("[${generatorsInfo[i]}]\n")
-            this.jtextArea.append("Total Requests: ${g.totalRequests}\n")
-            this.jtextArea.append("Average Generation Time: ${g.averageGenerationTime}\n\n")
+            this.jtextArea.append("- Общее кол-во заявок: ${g.totalRequests} (шт)\n")
+            this.jtextArea.append("- Среднее время генерации: ${g.averageGenerationTime} (тик)\n\n")
         }
         statistics.processors.forEachIndexed {i, g ->
             this.jtextArea.append("[${processorsInfo[i]}]\n")
-            this.jtextArea.append("Total Requests: ${g.totalRequests}\n")
-            this.jtextArea.append("Average Processing Time: ${g.averageProcessingTime}\n")
-            this.jtextArea.append("Average Waiting Time: ${g.averageWaitingTime}\n\n")
+            this.jtextArea.append("- Общее кол-во заявок: ${g.totalRequests} (шт)\n")
+            this.jtextArea.append("- Среднее время обработки: ${g.averageProcessingTime} (тик)\n")
+            this.jtextArea.append("- Среднее время ожидания: ${g.averageWaitingTime} (тик)\n\n")
         }
         this.jtextArea.caretPosition = 0
         this.jtextArea.isEditable = false

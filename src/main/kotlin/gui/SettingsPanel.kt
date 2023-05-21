@@ -28,6 +28,7 @@ class SettingsPanel() {
         this.jpanel.add(JLabel("Время (тик):"), GridBagConstraints().apply {
             weightx = 1.0
             fill = GridBagConstraints.HORIZONTAL
+            insets = Insets(0, 5, 0, 5)
         })
 
         this.timeField = JTextField(7)
@@ -35,12 +36,14 @@ class SettingsPanel() {
             gridx = 1
             weightx = 1.0
             fill = GridBagConstraints.HORIZONTAL
+            insets = Insets(0, 5, 0, 5)
         })
 
         this.jpanel.add(JLabel("Алгоритм:"), GridBagConstraints().apply {
             gridy = 1
             weightx = 1.0
             fill = GridBagConstraints.HORIZONTAL
+            insets = Insets(0, 5, 0, 5)
         })
 
         this.comboBox = JComboBox(arrayOf(Method.HYBRID.value, Method.TIMEBASED.value, Method.EVENTBASED.value))
@@ -49,6 +52,7 @@ class SettingsPanel() {
             gridy = 1
             weightx = 1.0
             fill = GridBagConstraints.HORIZONTAL
+            insets = Insets(0, 5, 0, 5)
         })
 
         this.jpanel.add(createCardPanel(), GridBagConstraints().apply {
@@ -56,6 +60,7 @@ class SettingsPanel() {
             gridwidth = 2
             weightx = 1.0
             fill = GridBagConstraints.HORIZONTAL
+            insets = Insets(0, 5, 0, 5)
         })
 
         setCurrentInfo()
@@ -146,7 +151,7 @@ class SettingsPanel() {
     private fun createCombinedPanel(): JPanel {
         val panel = JPanel(GridBagLayout())
 
-        panel.add(JLabel("Размер 1го уровня часов (тик):"), GridBagConstraints().apply {
+        panel.add(JLabel("Размер нулевого уровня часов (тик):"), GridBagConstraints().apply {
             weightx = 1.0
             fill = GridBagConstraints.HORIZONTAL
         })
@@ -158,7 +163,7 @@ class SettingsPanel() {
             fill = GridBagConstraints.HORIZONTAL
         })
 
-        panel.add(JLabel("Размер не 1го уровня (тик):"), GridBagConstraints().apply {
+        panel.add(JLabel("Размер ненулевого уровня часов (тик):"), GridBagConstraints().apply {
             gridy = 1
             weightx = 1.0
             fill = GridBagConstraints.HORIZONTAL

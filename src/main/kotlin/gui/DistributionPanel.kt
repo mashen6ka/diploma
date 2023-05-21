@@ -22,7 +22,7 @@ class Param(
 
 enum class DistributionType(val value: String) {
 	UNIFORM("Равномерное"),
-	POISSONPEAK("Пуассон с пиками")
+	POISSONPEAK("Равномерное с пиками")
 }
 
 data class Distribution(

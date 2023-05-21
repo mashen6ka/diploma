@@ -25,11 +25,11 @@ class BlockListPanel<T: BlockInfo>(
         this.jpanel.setBorder(BorderFactory.createTitledBorder("${this.blockName}:"))
 
         this.jlist = createBlockList()
-        var scroll = JScrollPane(this.jlist)
+        val scroll = JScrollPane(this.jlist)
 
         this.addButton = JButton("+")
         this.deleteButton = JButton("-")
-        this.updateButton = JButton("edit")
+        this.updateButton = JButton("ред.")
 
         this.jpanel.add(scroll, GridBagConstraints().apply {
             gridx = 0

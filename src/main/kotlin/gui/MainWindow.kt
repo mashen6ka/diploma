@@ -7,7 +7,7 @@ import javax.swing.border.EmptyBorder
 import time.UniformDurationGenerator
 
 class MainWindow() {
-    private var frame: JFrame = JFrame("Modelling")
+    private var frame: JFrame = JFrame("Моделирование СМО")
     private var generatorsPanel: BlockListPanel<GeneratorInfo>? = null
     private var processorsPanel: BlockListPanel<ProcessorInfo>? = null
     private var statisticsPanel: StatisticsPanel? = null
@@ -67,6 +67,15 @@ class MainWindow() {
 
         val processors = processorsInfo.map{it.getBlock()}
         val generators = generatorsInfo.map{it.getBlock()}
+
+        generators.forEach{ p ->
+            println("${p} ${p.receivers}")
+        }
+
+        processors.forEach{ p ->
+            println("${p} ${p.receivers}")
+        }
+        println("\n")
 
         var simulator: Simulator? = null
         if (this.settingsPanel!!.getMethod() == Method.HYBRID.value) {
@@ -150,8 +159,12 @@ class MainWindow() {
             if (durationGenerator != null) {
                 if (blockInfo is GeneratorInfo)
                     this.generatorsPanel!!.updateBlockInfo(index, durationGenerator, receiversInfo)
-                else if (blockInfo is ProcessorInfo)
+                else if (blockInfo is ProcessorInfo){
                     this.processorsPanel!!.updateBlockInfo(index, durationGenerator, receiversInfo)
+//                   TODO: рекурсивный фиктивный апдейт??
+//                    updateProcessorsInfo(blockInfo)
+//                    updateGeneratorsInfo(blockInfo)
+                }
                 modal.dispose()
             }
         }
@@ -176,5 +189,34 @@ class MainWindow() {
         modal.pack()
         modal.setLocationRelativeTo(this.frame)
         modal.isVisible = true
+    }
+
+    private fun updateProcessorsInfo(processorInfo: ProcessorInfo) {
+        this.processorsPanel!!.getBlocksInfo().forEach{ p ->
+            if (p.getReceiversInfo() != null) {
+                val i = p.getReceiversInfo()!!.indexOfFirst{ it.getIndex() ==  processorInfo.getIndex()}
+                if (i != -1) {
+                    val newList = p.getReceiversInfo()!!.toMutableList()
+                    newList.removeAt(i)
+                    newList.add(processorInfo)
+                    p.update(p.getDurationGenerator(), newList)
+                    updateProcessorsInfo(p)
+                }
+            }
+        }
+    }
+
+    private fun updateGeneratorsInfo(processorInfo: ProcessorInfo) {
+        this.generatorsPanel!!.getBlocksInfo().forEach{ g ->
+            if (g.getReceiversInfo() != null) {
+                val i = g.getReceiversInfo()!!.indexOfFirst{ it.getIndex() ==  processorInfo.getIndex()}
+                if (i != -1) {
+                    val newList = g.getReceiversInfo()!!.toMutableList()
+                    newList.removeAt(i)
+                    newList.add(processorInfo)
+                    g.update(g.getDurationGenerator(), newList)
+                }
+            }
+        }
     }
 }
