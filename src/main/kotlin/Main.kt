@@ -6,28 +6,67 @@ import kotlin.random.Random
 import gui.MainWindow
 
 fun main() {
-    MainWindow()
+//    MainWindow()
+    val hybridPoints = testSimulatorByTime<HybridSimulator>()
+    val timeBasedPoints = testSimulatorByTime<TimeBasedSimulator>()
+    val eventBasedPoints = testSimulatorByTime<EventBasedSimulator>()
 
-    val processors = List(2) {
-        Processor(UniformDurationGenerator(1, 10), null)
+    timeBasedPoints.forEach{
+      println(it)
     }
-//    val processor1 = Processor(UniformDurationGenerator(1, 10), null)
-//    val processor2 = Processor(UniformDurationGenerator(1, 10), null)
-//    val processor3 = Processor(UniformDurationGenerator(1, 10), null)
-//    val processors = listOf(processor1, processor2, processor3)
 
-    val generator = Generator(PoissonDurationGenerator(1, 10, 100), processors)
-    val generators = listOf(generator)
+    hybridPoints.forEach{
+        println(it)
+    }
 
-    runSimulator(TimeBasedSimulator(generators, processors, 1))
-//    runSimulator(EventBasedSimulator(generators, processors))
-//    runSimulator(HybridSimulator(generators, processors, 200, 10))
+    eventBasedPoints.forEach{
+        println(it)
+    }
 }
 
-fun runSimulator(simulator: Simulator) {
-    val statistics = simulator.simulate(100)
-    println(statistics.elapsed)
-    statistics.generators.forEach { println(it) }
-    statistics.processors.forEach { println(it) }
-    println()
+inline fun <reified T: Simulator> testSimulatorByTime(): MutableList<Pair<Long, Long>> {
+    val runs = 10
+
+    val points = mutableListOf<Pair<Long, Long>>()
+    points.add(Pair(0, 0))
+
+    val minWaitDuration = 0
+    val maxWaitDuration = 1000
+    val step = 100
+
+    val maxTime = 100000
+    for (waitDuration in minWaitDuration .. maxWaitDuration step step) {
+        println("WaitDuration $waitDuration out of $maxWaitDuration")
+        var currElapsedTime: Long = 0
+
+        val processor = Processor(UniformDurationGenerator(1, 2), null)
+        val generator = Generator(UniformPeakDurationGenerator(100, waitDuration, 1, 2), listOf(processor))
+        for (j in 0..runs) {
+            val simulator: Simulator = if (T::class == TimeBasedSimulator::class) {
+                TimeBasedSimulator(listOf(generator), listOf(processor), 1)
+            } else if (T::class == EventBasedSimulator::class) {
+                EventBasedSimulator(listOf(generator), listOf(processor))
+            } else {
+                HybridSimulator(listOf(generator), listOf(processor), 100, 10)
+            }
+            val statistics = runSimulator(simulator, maxTime)
+
+            currElapsedTime += statistics.elapsed
+        }
+        points.add(Pair(waitDuration.toLong(), currElapsedTime / runs))
+    }
+
+    return points
+}
+
+fun runSimulator(simulator: Simulator, time: Time, silent: Boolean = true): Simulator.Statistics {
+    val statistics = simulator.simulate(time)
+
+    if (!silent) {
+        println(statistics.elapsed)
+        statistics.generators.forEach { println(it) }
+        statistics.processors.forEach { println(it) }
+        println()
+    }
+    return statistics
 }
