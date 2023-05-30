@@ -82,21 +82,21 @@ class BlockListPanel<T: BlockInfo>(
     fun createAddButtonEvent(f: (selectedBlockInfo: BlockInfo?, selectedIndex: Int?) -> Any) {
         val list = this.jlist
         this.addButton!!.addActionListener {
-            f(list!!.selectedValue, list!!.selectedIndex)
+            f(list!!.selectedValue, list.selectedIndex)
         }
     }
 
     fun createDeleteButtonEvent(f: (selectedBlockInfo: BlockInfo?, selectedIndex: Int?) -> Any) {
         val list = this.jlist
         this.deleteButton!!.addActionListener {
-            f(list!!.selectedValue, list!!.selectedIndex)
+            f(list!!.selectedValue, list.selectedIndex)
         }
     }
 
     fun createUpdateButtonEvent(f: (selectedBlockInfo: BlockInfo?, selectedIndex: Int?) -> Any) {
         val list = this.jlist
         this.updateButton!!.addActionListener {
-            f(list!!.selectedValue, list!!.selectedIndex)
+            f(list!!.selectedValue, list.selectedIndex)
         }
     }
 
@@ -123,10 +123,10 @@ class BlockListPanel<T: BlockInfo>(
     }
 
     private fun createBlockInfo(index: Int, durationGenerator: DurationGenerator, receiversInfo: List<ProcessorInfo>?): BlockInfo {
-        if (this.blockType == GeneratorInfo::class.java)
-            return  GeneratorInfo(index, durationGenerator, receiversInfo)
+        return if (this.blockType == GeneratorInfo::class.java)
+            GeneratorInfo(index, durationGenerator, receiversInfo)
         else
-            return ProcessorInfo(index, durationGenerator, receiversInfo)
+            ProcessorInfo(index, durationGenerator, receiversInfo)
     }
 
     private fun createBlockList(): JList<BlockInfo> {

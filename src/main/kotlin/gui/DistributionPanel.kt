@@ -61,7 +61,7 @@ class DistributionPanel(var currentGenerator: DurationGenerator) {
 
 		setCurrentInfo(comboBox)
 		comboBox.addActionListener {
-				val selected = comboBox.selectedItem.toString()
+				val selected = comboBox.selectedItem?.toString()
 				val cardLayout = this.panelCard.layout as CardLayout
 				cardLayout.show(this.panelCard, selected)
 				this.currentDistribution = this.distributions.firstOrNull({ it.name == selected })
@@ -127,11 +127,10 @@ class DistributionPanel(var currentGenerator: DurationGenerator) {
 			val min = minParam!!.field.getText()
 			val max = maxParam!!.field.getText()
 
-			try {
-				return UniformDurationGenerator(min.toInt(), max.toInt())
-			}
-			catch (e: NumberFormatException) {
-				return null
+			return try {
+				UniformDurationGenerator(min.toInt(), max.toInt())
+			} catch (e: NumberFormatException) {
+				null
 			}
 		}
 		else if (this.currentDistribution!!.name == DistributionType.UNIFORMPEAK.value){
@@ -145,11 +144,10 @@ class DistributionPanel(var currentGenerator: DurationGenerator) {
 			val peakDuration = peakDurationParam!!.field.getText()
 			val waitDuration = waitDurationParam!!.field.getText()
 
-			try {
-				return UniformPeakDurationGenerator(peakDuration.toInt(), waitDuration.toInt(), min.toInt(), max.toInt())
-			}
-			catch (e: NumberFormatException) {
-				return null
+			return try {
+				UniformPeakDurationGenerator(peakDuration.toInt(), waitDuration.toInt(), min.toInt(), max.toInt())
+			} catch (e: NumberFormatException) {
+				null
 			}
 		} else if (this.currentDistribution!!.name == DistributionType.EXPONENTIALPEAK.value) {
 			val peakDurationParam = this.currentDistribution!!.params.firstOrNull({ it.name == "Длина пика" })
@@ -162,11 +160,10 @@ class DistributionPanel(var currentGenerator: DurationGenerator) {
 			val avgPeakTime = avgPeakTimeParam!!.field.getText()
 			val avgWaitTime = avgWaitTimeParam!!.field.getText()
 
-			try {
-				return ExponentialPeakDurationGenerator(peakDuration.toInt(), waitDuration.toInt(), avgPeakTime.toInt(), avgWaitTime.toInt())
-			}
-			catch (e: NumberFormatException) {
-				return null
+			return try {
+				ExponentialPeakDurationGenerator(peakDuration.toInt(), waitDuration.toInt(), avgPeakTime.toInt(), avgWaitTime.toInt())
+			} catch (e: NumberFormatException) {
+				null
 			}
 		}
 		else {
@@ -178,7 +175,7 @@ class DistributionPanel(var currentGenerator: DurationGenerator) {
 		val panel = JPanel(GridBagLayout())
 		val c = GridBagConstraints()
 
-		var paramFields = mutableListOf<ParamField>()
+		val paramFields = mutableListOf<ParamField>()
 		params.forEachIndexed { i, p ->
 			c.gridx = 0
 			c.gridy = i
@@ -188,7 +185,7 @@ class DistributionPanel(var currentGenerator: DurationGenerator) {
 			c.gridx = 1
 			c.gridy = i
 			c.anchor = GridBagConstraints.LINE_END
-			var field = JTextField(7)
+			val field = JTextField(7)
 
 			panel.add(field, c)
 			paramFields.add(ParamField(p.name, field))

@@ -1,7 +1,6 @@
 package gui
 
 import simulator.Generator
-import simulator.Processor
 import time.DurationGenerator
 
 class GeneratorInfo(
@@ -12,12 +11,8 @@ class GeneratorInfo(
     private var block: Generator? = null
 
     init {
-        if (this.receiversInfo == null)
-            this.block = Generator(this.durationGenerator, null)
-        else {
-            val receivers = this.receiversInfo!!.map { it.getBlock() }
-            this.block = Generator(this.durationGenerator, receivers)
-        }
+        val receivers = this.receiversInfo?.map { it.getBlock() }
+        this.block = Generator(this.durationGenerator, receivers)
     }
 
     override fun update(durationGenerator: DurationGenerator, receiversInfo: List<ProcessorInfo>?) {
@@ -25,12 +20,9 @@ class GeneratorInfo(
         this.receiversInfo = receiversInfo
 
         this.block!!.durationGenerator = durationGenerator
-        if (this.receiversInfo == null)
-            this.block!!.receivers = null
-        else {
-            val receivers = this.receiversInfo!!.map { it.getBlock() }
-            this.block!!.receivers = receivers
-        }
+
+        val receivers = this.receiversInfo?.map { it.getBlock() }
+        this.block!!.receivers = receivers
     }
 
     override fun getBlock(): Generator {

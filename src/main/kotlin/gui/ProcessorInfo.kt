@@ -11,12 +11,8 @@ class ProcessorInfo(
     private var block: Processor? = null
 
     init {
-        if (this.receiversInfo == null)
-            this.block = Processor(this.durationGenerator, null)
-        else {
-            val receivers = this.receiversInfo!!.map { it.getBlock() }
-            this.block = Processor(this.durationGenerator, receivers)
-        }
+        val receivers = this.receiversInfo?.map { it.getBlock() }
+        this.block = Processor(this.durationGenerator, receivers)
     }
 
     override fun update(durationGenerator: DurationGenerator, receiversInfo: List<ProcessorInfo>?) {
@@ -24,12 +20,9 @@ class ProcessorInfo(
         this.receiversInfo = receiversInfo
 
         this.block!!.durationGenerator = durationGenerator
-        if (this.receiversInfo == null)
-            this.block!!.receivers = null
-        else {
-            val receivers = this.receiversInfo!!.map { it.getBlock() }
-            this.block!!.receivers = receivers
-        }
+
+        val receivers = this.receiversInfo?.map { it.getBlock() }
+        this.block!!.receivers = receivers
     }
 
     override fun getBlock(): Processor {

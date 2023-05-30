@@ -13,11 +13,11 @@ class ReceiversPanel(var currentReceiversInfo: List<ProcessorInfo>?, var process
         this.jpanel = JPanel(GridBagLayout())
         this.jpanel.setBorder(BorderFactory.createTitledBorder("Получатели:"))
 
-        var model = DefaultListModel<ProcessorInfo>()
+        val model = DefaultListModel<ProcessorInfo>()
         for (item in this.processorsInfo!!) {
             model.addElement(item)
         }
-        var list = JList(model)
+        val list = JList(model)
         list.selectionMode = ListSelectionModel.MULTIPLE_INTERVAL_SELECTION
 
         setCurrentInfo(list)

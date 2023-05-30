@@ -71,34 +71,34 @@ class SettingsPanel() {
     }
 
     fun getTime(): Int? {
-        try {
-            return this.timeField.text.toInt()
+        return try {
+            this.timeField.text.toInt()
         } catch (e: NumberFormatException) {
-            return null
+            null
         }
     }
 
     fun getDeltaT(): Int? {
-        try {
-            return this.deltaTField.text.toInt()
+        return try {
+            this.deltaTField.text.toInt()
         } catch (e: NumberFormatException) {
-            return null
+            null
         }
     }
 
     fun getArraySize(): Int? {
-        try {
-            return this.arraySizeField.text.toInt()
+        return try {
+            this.arraySizeField.text.toInt()
         } catch (e: NumberFormatException) {
-            return null
+            null
         }
     }
 
     fun getTableWidth(): Int? {
-        try {
-            return this.tableWidthField.text.toInt()
+        return try {
+            this.tableWidthField.text.toInt()
         } catch (e: NumberFormatException) {
-            return null
+            null
         }
     }
 
@@ -118,7 +118,7 @@ class SettingsPanel() {
         cardPanel.add(createEventBasedPanel(), Method.EVENTBASED.value)
 
         this.comboBox.addActionListener {
-            val selected = this.comboBox.selectedItem.toString()
+            val selected = this.comboBox.selectedItem?.toString()
             val cardLayout = cardPanel.layout as CardLayout
             cardLayout.show(cardPanel, selected)
         }
