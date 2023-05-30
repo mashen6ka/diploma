@@ -1,0 +1,35 @@
+\documentclass{bmstu}
+\usepackage{multirow}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\bibliography{biblio}
+
+\begin{document}
+\def\labelitemi{--}
+
+\makeresearchtitle
+    {Информатика, искусственный интеллект и системы управления} % Название факультета
+    {Программное обеспечение ЭВМ и информационные технологии} % Название кафедры
+    {Комбинированный алгоритм продвижения модельного времени при моделировании системы массового обслуживания} % Тема работы
+    {ИУ7-86Б} % Номер группы
+    {~М.~Ф.~Слепокурова} % ФИО студента
+    {~И.~В.~Рудаков} % ФИО научного руководителя
+    {}
+    {}
+
+\include{00-essay.tex}
+
+\maketableofcontents
+
+\include{01-introduction}
+\include{02-analysis}
+\include{03-design}
+\include{04-implementation}
+\include{05-research}
+\include{06-conclusion}
+
+\makebibliography
+
+\include{07-appendix}
+
+\end{document}

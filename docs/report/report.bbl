@@ -1,0 +1,306 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global}
+    \entry{economic_system}{book}{}
+      \name{author}{1}{}{%
+        {{hash=3bef2346913f455bdb8becf3b24b2d7c}{%
+           family={Варфоломеев{\bibnamedelimb }В.И.},
+           familyi={В\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Москва}%
+      }
+      \list{publisher}{1}{%
+        {Финансы и статистика}%
+      }
+      \strng{namehash}{3bef2346913f455bdb8becf3b24b2d7c}
+      \strng{fullhash}{3bef2346913f455bdb8becf3b24b2d7c}
+      \strng{bibnamehash}{3bef2346913f455bdb8becf3b24b2d7c}
+      \strng{authorbibnamehash}{3bef2346913f455bdb8becf3b24b2d7c}
+      \strng{authornamehash}{3bef2346913f455bdb8becf3b24b2d7c}
+      \strng{authorfullhash}{3bef2346913f455bdb8becf3b24b2d7c}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{chapter}{1}
+      \field{title}{Алгоритмическое моделирование элементов экономических систем}
+      \field{year}{2000}
+    \endentry
+    \entry{imitation_modelling_def}{book}{}
+      \name{author}{3}{}{%
+        {{hash=ebada492fdbd627ce41dae76a9741a29}{%
+           family={Вьюненко{\bibnamedelimb }Л.Ф.},
+           familyi={В\bibinitperiod}}}%
+        {{hash=39e5d6069433080e0346b44745fc61aa}{%
+           family={Михайлов{\bibnamedelimb }М.В.},
+           familyi={М\bibinitperiod}}}%
+        {{hash=f1bb419503b228c7b8eca12ca3fca192}{%
+           family={Первозванская{}Т.Н.},
+           familyi={П\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Москва}%
+      }
+      \list{publisher}{1}{%
+        {Юрайт}%
+      }
+      \strng{namehash}{1c7998d3b4844f56cd12d27c896c53ab}
+      \strng{fullhash}{1c7998d3b4844f56cd12d27c896c53ab}
+      \strng{bibnamehash}{1c7998d3b4844f56cd12d27c896c53ab}
+      \strng{authorbibnamehash}{1c7998d3b4844f56cd12d27c896c53ab}
+      \strng{authornamehash}{1c7998d3b4844f56cd12d27c896c53ab}
+      \strng{authorfullhash}{1c7998d3b4844f56cd12d27c896c53ab}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{chapter}{8}
+      \field{title}{Имитационное моделирование}
+      \field{year}{2017}
+    \endentry
+    \entry{gpss}{book}{}
+      \name{author}{1}{}{%
+        {{hash=ad1f979596b8570543f946c7ec861d72}{%
+           family={Томашевский{}В.Н.},
+           familyi={Т\bibinitperiod},
+           given={Жданова{}Е.Г.},
+           giveni={Ж\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Киев}%
+      }
+      \list{publisher}{1}{%
+        {Питер, Издательская группа BHV}%
+      }
+      \strng{namehash}{ad1f979596b8570543f946c7ec861d72}
+      \strng{fullhash}{ad1f979596b8570543f946c7ec861d72}
+      \strng{bibnamehash}{ad1f979596b8570543f946c7ec861d72}
+      \strng{authorbibnamehash}{ad1f979596b8570543f946c7ec861d72}
+      \strng{authornamehash}{ad1f979596b8570543f946c7ec861d72}
+      \strng{authorfullhash}{ad1f979596b8570543f946c7ec861d72}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{chapter}{1}
+      \field{title}{Имитационное моделирование средствами}
+      \field{year}{1998}
+    \endentry
+    \entry{mass_service_systems}{book}{}
+      \name{author}{1}{}{%
+        {{hash=8d02071c00c0614a49d30f0db62f5fd0}{%
+           family={Романенко{}В.А.},
+           familyi={Р\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Самара}%
+      }
+      \list{publisher}{1}{%
+        {Издательство Самарского университета}%
+      }
+      \strng{namehash}{8d02071c00c0614a49d30f0db62f5fd0}
+      \strng{fullhash}{8d02071c00c0614a49d30f0db62f5fd0}
+      \strng{bibnamehash}{8d02071c00c0614a49d30f0db62f5fd0}
+      \strng{authorbibnamehash}{8d02071c00c0614a49d30f0db62f5fd0}
+      \strng{authornamehash}{8d02071c00c0614a49d30f0db62f5fd0}
+      \strng{authorfullhash}{8d02071c00c0614a49d30f0db62f5fd0}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{chapter}{1}
+      \field{title}{Системы и сети массового обслуживания}
+      \field{year}{2021}
+    \endentry
+    \entry{system_modelling}{book}{}
+      \name{author}{3}{}{%
+        {{hash=06ee8a50938776bf5b0bdd4282178747}{%
+           family={Аврамчук{\bibnamedelimb }Е.Ф.},
+           familyi={А\bibinitperiod}}}%
+        {{hash=b2bd9b3a3e2d4127f293aa6af021072e}{%
+           family={Вавилов{\bibnamedelimb }А.А.},
+           familyi={В\bibinitperiod}}}%
+        {{hash=95c77f9131861da4b0342d4c8d519e8f}{%
+           family={Емельянов{\bibnamedelimb }С.В.},
+           familyi={Е\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Берлин}%
+      }
+      \list{publisher}{1}{%
+        {Машиностроение}%
+      }
+      \strng{namehash}{f55db3c5961e0039115bdd7b0d6ad539}
+      \strng{fullhash}{f55db3c5961e0039115bdd7b0d6ad539}
+      \strng{bibnamehash}{f55db3c5961e0039115bdd7b0d6ad539}
+      \strng{authorbibnamehash}{f55db3c5961e0039115bdd7b0d6ad539}
+      \strng{authornamehash}{f55db3c5961e0039115bdd7b0d6ad539}
+      \strng{authorfullhash}{f55db3c5961e0039115bdd7b0d6ad539}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{chapter}{9}
+      \field{title}{Технология системного моделирования}
+      \field{year}{1988}
+    \endentry
+    \entry{imitation_modelling}{book}{}
+      \name{author}{2}{}{%
+        {{hash=60aaa13220527e063f9b7b2d44db9734}{%
+           family={Кельтон{\bibnamedelimb }В.Д.},
+           familyi={К\bibinitperiod}}}%
+        {{hash=7e324c187f1ce16fb8e08f92ade2f84f}{%
+           family={Лоу{\bibnamedelimb }А.М.},
+           familyi={Л\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {СПб}%
+      }
+      \list{publisher}{1}{%
+        {Питер, Издательская группа BHV}%
+      }
+      \strng{namehash}{1a4dc2368b0c3f1a2bdd451c83c4b40b}
+      \strng{fullhash}{1a4dc2368b0c3f1a2bdd451c83c4b40b}
+      \strng{bibnamehash}{1a4dc2368b0c3f1a2bdd451c83c4b40b}
+      \strng{authorbibnamehash}{1a4dc2368b0c3f1a2bdd451c83c4b40b}
+      \strng{authornamehash}{1a4dc2368b0c3f1a2bdd451c83c4b40b}
+      \strng{authorfullhash}{1a4dc2368b0c3f1a2bdd451c83c4b40b}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{chapter}{1}
+      \field{edition}{3}
+      \field{title}{Имитационное моделирование. Классика CS.}
+      \field{year}{2004}
+    \endentry
+    \entry{priority_queue_implementation}{book}{}
+      \name{author}{2}{}{%
+        {{hash=5e695151247596be9fc7de1cc5f23de9}{%
+           family={Sedgewick{}R.},
+           familyi={S\bibinitperiod}}}%
+        {{hash=86113540e8a1e244fc6a1ab7e3d920a0}{%
+           family={Wayne{}K.},
+           familyi={W\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Westford, Massachusetts}%
+      }
+      \list{publisher}{1}{%
+        {Addison-Wesley Professional}%
+      }
+      \strng{namehash}{24a92137ecb1685c1973c586f1e5bd3d}
+      \strng{fullhash}{24a92137ecb1685c1973c586f1e5bd3d}
+      \strng{bibnamehash}{24a92137ecb1685c1973c586f1e5bd3d}
+      \strng{authorbibnamehash}{24a92137ecb1685c1973c586f1e5bd3d}
+      \strng{authornamehash}{24a92137ecb1685c1973c586f1e5bd3d}
+      \strng{authorfullhash}{24a92137ecb1685c1973c586f1e5bd3d}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{chapter}{2}
+      \field{title}{Algorithms}
+      \field{year}{2011}
+    \endentry
+    \entry{priority_queue_complexity}{book}{}
+      \name{author}{3}{}{%
+        {{hash=f27f10b83ad6988eb6cbe93f4d8c2561}{%
+           family={H.},
+           familyi={H\bibinitperiod},
+           given={Cormen{}T.},
+           giveni={C\bibinitperiod}}}%
+        {{hash=0d8d4a977d8cd29b76e20c9e447b01bf}{%
+           family={E.},
+           familyi={E\bibinitperiod},
+           given={Leiserson{}C.},
+           giveni={L\bibinitperiod}}}%
+        {{hash=7ee448c720e2185b95671e0454689f54}{%
+           family={L.},
+           familyi={L\bibinitperiod},
+           given={Rivest{}R.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {London, England}%
+      }
+      \list{publisher}{1}{%
+        {The MIT Press}%
+      }
+      \strng{namehash}{2d4b67cad57a6b490191eeceb49ffdcd}
+      \strng{fullhash}{2d4b67cad57a6b490191eeceb49ffdcd}
+      \strng{bibnamehash}{2d4b67cad57a6b490191eeceb49ffdcd}
+      \strng{authorbibnamehash}{2d4b67cad57a6b490191eeceb49ffdcd}
+      \strng{authornamehash}{2d4b67cad57a6b490191eeceb49ffdcd}
+      \strng{authorfullhash}{2d4b67cad57a6b490191eeceb49ffdcd}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{chapter}{6}
+      \field{title}{Introduction to algorithms}
+      \field{year}{2001}
+    \endentry
+    \entry{system_modelling_eng}{article}{}
+      \name{author}{1}{}{%
+        {{hash=28b1714b0443579a4c7271b7b7805618}{%
+           family={Avor{\bibnamedelimb }J.},
+           familyi={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{28b1714b0443579a4c7271b7b7805618}
+      \strng{fullhash}{28b1714b0443579a4c7271b7b7805618}
+      \strng{bibnamehash}{28b1714b0443579a4c7271b7b7805618}
+      \strng{authorbibnamehash}{28b1714b0443579a4c7271b7b7805618}
+      \strng{authornamehash}{28b1714b0443579a4c7271b7b7805618}
+      \strng{authorfullhash}{28b1714b0443579a4c7271b7b7805618}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Information processing letters}
+      \field{title}{An adaptive time advancement algorithm for discrete simulation}
+      \field{year}{1977}
+      \field{number}{6}
+      \range{number}{1}
+      \field{pages}{83\bibrangedash 86}
+      \range{pages}{4}
+      \field{volume}{6}
+      \range{volume}{1}
+    \endentry
+    \entry{mos_ru}{misc}{}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Режим доступа: \url{https://www.mos.ru/news/item/30714073/} (дата обращения: 15.05.2023)}
+      \field{title}{<<Мои документы>> обновили графики загруженности всех центров госуслуг столицы [Электронный ресурс]}
+    \endentry
+    \entry{mosreg_ru}{misc}{}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Режим доступа: \url{https://mits.mosreg.ru/sobytiya/novosti-ministerstva/28-03-2022-14-47-46-novyy-mfts-otkryt-v-balashikhe} (дата обращения: 15.05.2023)}
+      \field{title}{Новый МФЦ открыт в Балашихе [Электронный ресурс]}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

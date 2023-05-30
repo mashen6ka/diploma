@@ -1,0 +1,8 @@
+\babel@toc {russian}{}\relax 
+\contentsline {chapter}{\numberline {1}Формальная постановка задачи}{5}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Разработанный алгоритм}{7}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Схема алгоритма}{7}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Описание реализации}{10}{section.2.2}%
+\contentsline {chapter}{ЗАКЛЮЧЕНИЕ}{19}{chapter*.9}%
+\contentsline {chapter}{СПИСОК ИСПОЛЬЗОВАННЫХ ИСТОЧНИКОВ}{20}{chapter*.10}%
+\contentsline {chapter}{ПРИЛОЖЕНИЕ \numberline {\CYRA }}{21}{appendix.1.A}%
