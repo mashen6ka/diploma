@@ -1,8 +1,6 @@
 package gui
 
-import simulator.Block
 import time.DurationGenerator
-import time.UniformDurationGenerator
 import java.awt.*
 import javax.swing.*
 
@@ -116,7 +114,8 @@ class BlockListPanel<T: BlockInfo>(
 
     fun updateBlockInfo(index: Int, durationGenerator: DurationGenerator, receiversInfo: List<ProcessorInfo>?) {
         val old = this.jmodel.get(index)
-        this.jmodel.set(index, createBlockInfo(old.getIndex(), durationGenerator, receiversInfo))
+        old.update(durationGenerator, receiversInfo)
+        this.jmodel.set(index, old)
     }
 
     fun getBlocksInfo(): List<T> {
