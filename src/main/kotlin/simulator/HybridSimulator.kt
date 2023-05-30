@@ -28,7 +28,7 @@ class HybridSimulator(
 
     private fun generateInitialEvents(clock: Clock) {
         generators.forEach{
-            val eventTime = it.start(0)
+            val eventTime = it.start(1)
             if (eventTime != null) {
                 val event = Event(eventTime, it)
                 clock.addInitialEvent(event)

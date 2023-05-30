@@ -21,4 +21,20 @@ class UniformPeakDurationGenerator(
             return waitDuration
         }
     }
+
+    fun getPeakDuration(): Time {
+        return peakDuration
+    }
+
+    fun getWaitDuration(): Time {
+        return waitDuration
+    }
+
+    fun getMin(): Time {
+        return min
+    }
+
+    fun getMax(): Time {
+        return max
+    }
 }
