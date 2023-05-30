@@ -135,7 +135,7 @@ class BlockListPanel<T: BlockInfo>(
 
         val list = JList(jmodel)
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
-        list.setVisibleRowCount(5)
+        list.setVisibleRowCount(10)
 
         val renderer = DefaultListCellRenderer()
         renderer.horizontalAlignment = JLabel.CENTER

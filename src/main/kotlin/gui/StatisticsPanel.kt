@@ -15,7 +15,7 @@ class StatisticsPanel() {
         this.jpanel = JPanel(GridBagLayout())
         this.jpanel.setBorder(BorderFactory.createTitledBorder("Статистика:"))
 
-        this.jtextArea.rows = 15
+        this.jtextArea.rows = 20
         this.jtextArea.isEditable = false
 
         val scrollPane = JScrollPane(this.jtextArea)

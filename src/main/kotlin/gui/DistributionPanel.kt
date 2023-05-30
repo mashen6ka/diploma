@@ -1,8 +1,6 @@
 package gui
 
-import time.DurationGenerator
-import time.PoissonDurationGenerator
-import time.UniformDurationGenerator
+import time.*
 import java.awt.*
 import javax.swing.*
 
@@ -22,7 +20,8 @@ class Param(
 
 enum class DistributionType(val value: String) {
 	UNIFORM("Равномерное"),
-	POISSONPEAK("Равномерное с пиками")
+	UNIFORMPEAK("Равномерное с пиками"),
+	EXPONENTIALPEAK("Экспоненциальное с пиками")
 }
 
 data class Distribution(
@@ -43,7 +42,7 @@ class DistributionPanel(var currentGenerator: DurationGenerator) {
 	init {
 		this.jpanel = JPanel()
 		this.jpanel.setBorder(BorderFactory.createTitledBorder("Распределение:"))
-		val comboBox = JComboBox(arrayOf(DistributionType.UNIFORM.value, DistributionType.POISSONPEAK.value))
+		val comboBox = JComboBox(arrayOf(DistributionType.UNIFORM.value, DistributionType.UNIFORMPEAK.value, DistributionType.EXPONENTIALPEAK.value))
 		this.jpanel.add(comboBox)
 	
 		this.panelCard = JPanel(CardLayout())
@@ -51,8 +50,12 @@ class DistributionPanel(var currentGenerator: DurationGenerator) {
 		val uniformParams = listOf<Param>(Param("Min"), Param("Max"))
 		this.panelCard.add(createDistributionPanel(DistributionType.UNIFORM.value, uniformParams), DistributionType.UNIFORM.value)
 
-		val uniformPeakParams = listOf<Param>(Param("Min"), Param("Max"), Param("Длина пика"))
-		this.panelCard.add(createDistributionPanel(DistributionType.POISSONPEAK.value, uniformPeakParams), DistributionType.POISSONPEAK.value)
+		val uniformPeakParams = listOf<Param>(Param("Длина пика"), Param("Длина промежутка"), Param("Min"), Param("Max"))
+		this.panelCard.add(createDistributionPanel(DistributionType.UNIFORMPEAK.value, uniformPeakParams), DistributionType.UNIFORMPEAK.value)
+
+		val exponentialPeakParams = listOf<Param>(Param("Длина пика"), Param("Длина промежутка"), Param("Ср. время для пика"), Param("Ср. время для промежутка"))
+		this.panelCard.add(createDistributionPanel(DistributionType.EXPONENTIALPEAK.value, exponentialPeakParams), DistributionType.EXPONENTIALPEAK.value)
+
 
 		this.jpanel.add(this.panelCard, BorderLayout.CENTER)
 
@@ -75,20 +78,38 @@ class DistributionPanel(var currentGenerator: DurationGenerator) {
 			val minField = distr!!.params.firstOrNull({ it.name == "Min" })!!.field
 			minField.text = "${(this.currentGenerator as UniformDurationGenerator).getMin()}"
 
-			val maxField = distr.params.firstOrNull({ it.name == "Max" })!!.field
+			val maxField = distr!!.params.firstOrNull({ it.name == "Max" })!!.field
 			maxField.text = "${(this.currentGenerator as UniformDurationGenerator).getMax()}"
-		} else if (this.currentGenerator is PoissonDurationGenerator) {
-			distrName = DistributionType.POISSONPEAK.value
+		} else if (this.currentGenerator is UniformPeakDurationGenerator) {
+			distrName = DistributionType.UNIFORMPEAK.value
 			val distr = this.distributions.firstOrNull({ it.name ==  distrName})
 
 			val minField = distr!!.params.firstOrNull{ it.name == "Min" }!!.field
-			minField.text = "${(this.currentGenerator as PoissonDurationGenerator).getMin()}"
+			minField.text = "${(this.currentGenerator as UniformPeakDurationGenerator).getMin()}"
 
-			val maxField = distr.params.firstOrNull({ it.name == "Max" })!!.field
-			maxField.text = "${(this.currentGenerator as PoissonDurationGenerator).getMax()}"
+			val maxField = distr!!.params.firstOrNull({ it.name == "Max" })!!.field
+			maxField.text = "${(this.currentGenerator as UniformPeakDurationGenerator).getMax()}"
 
-			val peakLengthField = distr!!.params.firstOrNull({ it.name == "Длина пика" })!!.field
-			peakLengthField.text = "${(this.currentGenerator as PoissonDurationGenerator).getPeakLength()}"
+			val peakDurationField = distr!!.params.firstOrNull{ it.name == "Длина пика" }!!.field
+			peakDurationField.text = "${(this.currentGenerator as UniformPeakDurationGenerator).getPeakDuration()}"
+
+			val waitDurationField = distr!!.params.firstOrNull({ it.name == "Длина промежутка" })!!.field
+			waitDurationField.text = "${(this.currentGenerator as UniformPeakDurationGenerator).getWaitDuration()}"
+		} else if (this.currentGenerator is ExponentialPeakDurationGenerator) {
+			distrName = DistributionType.EXPONENTIALPEAK.value
+			val distr = this.distributions.firstOrNull({ it.name ==  distrName})
+
+			val peakDurationField = distr!!.params.firstOrNull{ it.name == "Длина пика" }!!.field
+			peakDurationField.text = "${(this.currentGenerator as ExponentialPeakDurationGenerator).getPeakDuration()}"
+
+			val waitDurationField = distr!!.params.firstOrNull({ it.name == "Длина промежутка" })!!.field
+			waitDurationField.text = "${(this.currentGenerator as ExponentialPeakDurationGenerator).getWaitDuration()}"
+
+			val avgPeakTimeField = distr!!.params.firstOrNull({ it.name == "Ср. время для пика" })!!.field
+			avgPeakTimeField.text = "${(this.currentGenerator as ExponentialPeakDurationGenerator).getAvgPeakTime()}"
+
+			val avgWaitTimeField = distr!!.params.firstOrNull({ it.name == "Ср. время для промежутка" })!!.field
+			avgWaitTimeField.text = "${(this.currentGenerator as ExponentialPeakDurationGenerator).getAvgWaitTime()}"
 		}
 		comboBox.selectedItem = distrName
 
@@ -113,17 +134,36 @@ class DistributionPanel(var currentGenerator: DurationGenerator) {
 				return null
 			}
 		}
-		else if (this.currentDistribution!!.name == DistributionType.POISSONPEAK.value){
+		else if (this.currentDistribution!!.name == DistributionType.UNIFORMPEAK.value){
 			val minParam = this.currentDistribution!!.params.firstOrNull({ it.name == "Min" })
 			val maxParam = this.currentDistribution!!.params.firstOrNull({ it.name == "Max" })
-			val peakLengthParam = this.currentDistribution!!.params.firstOrNull({ it.name == "Длина пика" })
+			val peakDurationParam = this.currentDistribution!!.params.firstOrNull({ it.name == "Длина пика" })
+			val waitDurationParam = this.currentDistribution!!.params.firstOrNull({ it.name == "Длина промежутка" })
 
 			val min = minParam!!.field.getText()
 			val max = maxParam!!.field.getText()
-			val peakLength = peakLengthParam!!.field.getText()
+			val peakDuration = peakDurationParam!!.field.getText()
+			val waitDuration = waitDurationParam!!.field.getText()
 
 			try {
-				return PoissonDurationGenerator(min.toInt(), max.toInt(), peakLength.toInt())
+				return UniformPeakDurationGenerator(peakDuration.toInt(), waitDuration.toInt(), min.toInt(), max.toInt())
+			}
+			catch (e: NumberFormatException) {
+				return null
+			}
+		} else if (this.currentDistribution!!.name == DistributionType.EXPONENTIALPEAK.value) {
+			val peakDurationParam = this.currentDistribution!!.params.firstOrNull({ it.name == "Длина пика" })
+			val waitDurationParam = this.currentDistribution!!.params.firstOrNull({ it.name == "Длина промежутка" })
+			val avgPeakTimeParam = this.currentDistribution!!.params.firstOrNull({ it.name == "Ср. время для пика" })
+			val avgWaitTimeParam = this.currentDistribution!!.params.firstOrNull({ it.name == "Ср. время для промежутка" })
+
+			val peakDuration = peakDurationParam!!.field.getText()
+			val waitDuration = waitDurationParam!!.field.getText()
+			val avgPeakTime = avgPeakTimeParam!!.field.getText()
+			val avgWaitTime = avgWaitTimeParam!!.field.getText()
+
+			try {
+				return ExponentialPeakDurationGenerator(peakDuration.toInt(), waitDuration.toInt(), avgPeakTime.toInt(), avgWaitTime.toInt())
 			}
 			catch (e: NumberFormatException) {
 				return null
