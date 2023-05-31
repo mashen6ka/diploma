@@ -1,5 +1,5 @@
+import gui.MainWindow
 import simulator.*
-import time.DurationGenerator
 import time.*
 import kotlin.math.*
 import kotlin.random.Random
