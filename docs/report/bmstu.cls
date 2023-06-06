@@ -1,6 +1,3 @@
-%% bmstu.cls
-%% 2022 Slepokurova Maria
-
 \NeedsTeXFormat{LaTeX2e}
 
 \ProvidesClass{bmstu}[2022/01/24 v1.0.0 BMSTU class]
@@ -12,14 +9,13 @@
 \RequirePackage[T1,T2A]{fontenc}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[english,main=russian]{babel}
-% \RequirePackage{fix-cm}
 
 % Настройка полей
 \RequirePackage[
-        left=30mm,
-        right=10mm,
-        top=20mm,
-        bottom=20mm,
+left=30mm,
+right=10mm,
+top=20mm,
+bottom=20mm,
 ]{geometry}
 
 % Настройка переносов

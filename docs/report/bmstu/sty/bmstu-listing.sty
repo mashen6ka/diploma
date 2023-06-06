@@ -22,10 +22,9 @@
 	inputencoding=utf8/koi8-r,
 	basicstyle=\small\ttfamily,
 	rulecolor=\color{black},
-	%escapeinside={\%*}{*)},
+	escapeinside={\%*}{*)},
 	breaklines=true,
-	postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
-	%breakatwhitespace=true,
+	breakatwhitespace=true,
 	tabsize=4,
 	showstringspaces=false,
 	float=h!,
@@ -51,36 +50,21 @@
 \newcommand{\includelistingpretty}[3]
 {
 	\lstinputlisting[
+		basicstyle=\small,
 		language={#2},
 		keywordstyle=\color{keywords},
 		stringstyle=\color{strings},
 		commentstyle=\color{comments},
-		frame=leftline,
-		numbers=left,
+		frame=single,
+		numbers=none,
 		numberstyle=\footnotesize\color{numbers},
 		caption={#3},
-		label={lst:#1},
+		label={lst: #1},
 	]{inc/lst/#1}
 }
 
-\lstdefinelanguage{Kotlin}{
-	comment=[l]{//},
-	commentstyle={\color{gray}\ttfamily},
-	emph={filter, first, firstOrNull, forEach, lazy, map, mapNotNull, println, minByOrNull, isNotEmpty},
-	emphstyle={\color{violet}},
-	identifierstyle=\color{black},
-	keywords={!in, !is, abstract, actual, annotation, as, as?, break, by, catch, class, companion, const, constructor, continue, crossinline, data, delegate, do, dynamic, else, enum, expect, external, false, field, file, final, finally, for, fun, get, if, import, in, infix, init, inline, inner, interface, internal, is, lateinit, noinline, null, object, open, operator, out, override, package, param, private, property, protected, public, receiveris, reified, return, return@, sealed, set, setparam, super, suspend, tailrec, this, throw, true, try, typealias, typeof, val, var, vararg, when, where, while, >,<,.,;,-,!,=,~},
-	keywordstyle={\color{blue}\bfseries},
-	morecomment=[s]{/*}{*/},
-	morestring=[b]",
-	morestring=[s]{"""*}{*"""},
-	ndkeywords={@Deprecated, @JvmField, @JvmName, @JvmOverloads, @JvmStatic, @JvmSynthetic, Array, Byte, Double, Float, Int, Integer, Iterable, Long, Runnable, Short, String, Any, Unit, Nothing, List, Time, Event, Request, MutableList, Processor, Generator},
-	ndkeywordstyle={\color{orange}\bfseries},
-	sensitive=true,
-	stringstyle={\color{codegreen}\ttfamily},
-}
 
-\newcommand{\listingfileKotlin}[2]{
+\newcommand{\listingfileKotlin}[3]{
 	\lstinputlisting[
 	basicstyle=\small,
 	frame=single,
@@ -90,11 +74,11 @@
 	keywordstyle=\color{codeblue}\bfseries,
 	stringstyle=\color{codegreen}\ttfamily,
 	showspaces=false,
-	numbers=left,
+	numbers=none,
 	numberstyle=\footnotesize\color{numbers},
 	showstringspaces=false,
 	caption={#1},
 	label={lst:#2},
-	language=Kotlin,
+	linerange={#3},
 	]{../../src/main/kotlin/#1}
 }

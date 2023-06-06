@@ -1,5 +1,4 @@
 \chapter{Технологический раздел}
-В данном разделе будет обоснован выбор средств программной реализации алгоритмов. Будет разработано программное обеспечение, реализующее комбинированный алгоритм продвижения модельного времени, выполнено его тестирование.
 
 \section{Выбор средств программной реализации}
 Для реализации комбинированного, а также пошагового и событийного алгоритмов был выбран язык программирования Kotlin и графическая библиотека Swing.
@@ -40,24 +39,36 @@
 
 В рамках данного раздела будут рассмотрены основные классы, необходимые для решения поставленной задачи.
 
+\clearpage
+На рисунке \ref{img:uml} представлена диаграмма компонентов разработанного программного обеспечения.
 
-В листинге \ref{lst:DurationGenerator} представлен интерфейс \textbf{DurationGenerator}, который реализуют все классы-генераторы продолжительности, например, класс \textbf{UniformDurationGenerator}, представленный в листинге \ref{lst:UniformDurationGenerator}. Метод $generate$ класса \textbf{UniformDurationGenerator} используется для генерирации продолжительность согласно равномерному распределению на основе значений $min$ и $max$, переданных в конструктор. Интерфейс \textbf{DurationGenerator} используется всеми сущностями, реализующими блоки системы, --- процессорами и генераторами, для генерации времени выполнения той или иной операции.
-\listingfileKotlin{time/DurationGenerator.kt}{DurationGenerator}
-\listingfileKotlin{time/UniformDurationGenerator.kt}{UniformDurationGenerator}
+\begin{figure}[h!btp]
+	\centering
+	\includegraphics[width=0.7\columnwidth]{inc/img/uml.pdf}
+	\caption{Диаграмма компонентов разработанного ПО}
+	\label{img:uml}	
+\end{figure}
 
-В листинге \ref{lst:Block} представлен интерфейс \textbf{Block}, который реализуют классы \textbf{Processor} и \textbf{Generator}. Метод $cleanupState$ используется для очищение всю статистику и текущее состояние блока. Метод $currentFinishTime$ --- метод-геттер, используемый для получения времени окончания текущего запущенного процесса. Метод $start$ используется для запуска процесса блока: для генератора --- процесса генерации заявки, для процессора --- процесса обработки заявки.
-\listingfileKotlin{simulator/Block.kt}{Block}
+
+В листинге \ref{lst:DurationGenerator} представлен интерфейс \textbf{DurationGenerator}, который реализуют все классы-генераторы продолжительности, например, класс \textbf{UniformDurationGenerator}, представленный в листинге \ref{lst:UniformDurationGenerator}. Метод $generate$ класса \textbf{UniformDurationGenerator} используется для генерации продолжительность согласно равномерному распределению на основе значений $min$ и $max$, переданных в конструктор. Интерфейс \textbf{DurationGenerator} используется всеми сущностями, реализующими блоки системы, --- процессорами и генераторами, для генерации времени выполнения той или иной операции.
+\listingfileKotlin{time/DurationGenerator.kt}{DurationGenerator}{1-100}
+\clearpage
+\listingfileKotlin{time/UniformDurationGenerator.kt}{UniformDurationGenerator}{1-100}
+
+В листинге \ref{lst:Block} представлен интерфейс \textbf{Block}, который реализуют классы \textbf{Processor} и \textbf{Generator}. Метод $cleanupState$ используется для очистки всей статистики и текущего состояния блока. Метод $currentFinishTime$ --- метод-геттер, используемый для получения времени окончания текущего запущенного процесса. Метод $start$ используется для запуска процесса блока: для генератора --- процесса генерации заявки, для процессора --- процесса обработки заявки.
+\clearpage
+\listingfileKotlin{simulator/Block.kt}{Block}{1-100}
 
 
 В листинге \ref{lst:Event} представлен класс \textbf{Event}, описывающий события в моделируемой системе, где $time$ --- время наступления события, $block$ --- блок системы, сгенерировавший событие.
-\listingfileKotlin{simulator/Event.kt}{Event}
+\listingfileKotlin{simulator/Event.kt}{Event}{1-100}
 
 
 В листинге \ref{lst:Request} представлен класс \textbf{Request}, описывающий заявки в моделируемой системе, где $timeIn$ --- время поступления заявки в с систему, $timeOut$ --- время выхода заявки из системы.
-\listingfileKotlin{simulator/Request.kt}{Request}
+\listingfileKotlin{simulator/Request.kt}{Request}{1-100}
 
 
-В листинге \ref{lst:Processor} представлен класс \textbf{Processor}, описывающий блок процессора в моделируемой системе. Как уже было сказано выше, он реализует интерфейс \textbf{Block}. Рассмотрим подробнее поля класса:
+В листингах \ref{lst:Processor-1}, \ref{lst:Processor-2} и \ref{lst:Processor-3} представлен класс \textbf{Processor}, описывающий блок процессора в моделируемой системе. Как уже было сказано выше, он реализует интерфейс \textbf{Block}. Рассмотрим подробнее поля класса:
 \begin{itemize}
 	\item $durationGenerator$ --- генератор продолжительности обработки заявки;
 	\item $receivers$ --- список процессоров-получателей обработанной заявки;
@@ -70,10 +81,11 @@
 	\item $totalWaitingTime$ --- общее время ожидание заявок в очереди.
 \end{itemize}
 Помимо этого, класс \textbf{Processor} содержит вложенный класс \textbf{Statistics}, описывающий собираемую по процессору статистику --- общее количество обработанных заявок, среднее время обработки заявки и среднее время ожидания заявки в очереди. Статистика вычисляется с помощью метода $statistics$ на основе полученных за время моделирования значений $totalRequests$, $totalProcessingTime$, $totalWaitingTime$.
-\listingfileKotlin{simulator/Processor.kt}{Processor}
+\listingfileKotlin{simulator/Processor.kt}{Processor-1}{1-15}
+\listingfileKotlin{simulator/Processor.kt}{Processor-2}{16-53}
+\listingfileKotlin{simulator/Processor.kt}{Processor-3}{54-91}
 
-
-В листинге \ref{lst:Generator} представлен класс \textbf{Generator}, описывающий блок генератора в моделируемой системе. Как уже было сказано выше, он реализует интерфейс \textbf{Block}. Рассмотрим подробнее поля класса:
+В листингах \ref{lst:Generator-1}, \ref{lst:Generator-2} представлен класс \textbf{Generator}, описывающий блок генератора в моделируемой системе. Как уже было сказано выше, он реализует интерфейс \textbf{Block}. Рассмотрим подробнее поля класса:
 \begin{itemize}
 	\item $durationGenerator$ --- генератор продолжительности генерации заявки;
 	\item $receivers$ --- список процессоров-получателей сгенерированной заявки;
@@ -84,18 +96,15 @@
 	\item $totalGenerationTime$ --- общее время работы генератора.
 \end{itemize}
 Помимо этого, класс \textbf{Generator} содержит вложенный класс \textbf{Statistics}, описывающий собираемую по генератору статистику --- общее количество обработанных заявок и среднее время генерации заявки. Статистика вычисляется с помощью метода $statistics$ на основе полученных за время моделирования значений $totalRequests$, $totalGenerationTime$.
-\listingfileKotlin{simulator/Generator.kt}{Generator}
+\listingfileKotlin{simulator/Generator.kt}{Generator-1}{1-30}
+\clearpage
+\listingfileKotlin{simulator/Generator.kt}{Generator-2}{31-68}
 
 
 В листинге \ref{lst:Simulator} представлен интерфейс \textbf{Simulator}, который реализуют классы-симуляторы для пошагового, событийного и комбинированного алгоритмов. В интерфейсе представлен вложенный класс \textbf{Statistics}, описывающий собираемую в процессе моделирования статистику. Класс содержит статистику, собранную со всех процессоров и генераторов, а также общее время выполнения симуляции.
-\listingfileKotlin{simulator/Simulator.kt}{Simulator}
+\listingfileKotlin{simulator/Simulator.kt}{Simulator}{1-100}
 
-Листинги классов-симуляторов \textbf{HybridSimulator}, \textbf{TimeBasedSimulator} и \textbf{EventBasedSimulator} приведены в приложении --- \ref{lst:full:HybridSimulator}, \ref{lst:full:TimeBasedSimulator} и \ref{lst:full:EventBasedSimulator} соответственно --- и реализуют описанные алгоритмы продвижения модельного времени.
+Листинги классов-симуляторов \textbf{HybridSimulator}, \textbf{TimeBasedSimulator} и \textbf{EventBasedSimulator} приведены в приложении \ref{app:A} и реализуют описанные алгоритмы продвижения модельного времени.
 
-\subsection{Пример использования разработанного ПО}
-
-
-\subsection{Моделирование МФЦ}
-
-\subsection{Выводы}
+\section{Выводы}
 В рамках данного раздела был обоснован выбор программных средств реализации алгоритма. Было разработано программное обеспечение, реализующее комбинированный алгоритм продвижения модельного времени, и описаны ключевые особенности его реализации. Также был разработан пользовательский интерфейс и продемонстрирован пример работы программного обеспечения.

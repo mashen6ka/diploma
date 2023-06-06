@@ -49,64 +49,6 @@
       \field{title}{Имитационное моделирование. Классика CS.}
       \field{year}{2004}
     \endentry
-    \entry{imitation_modelling_def}{book}{}
-      \name{author}{3}{}{%
-        {{hash=ebada492fdbd627ce41dae76a9741a29}{%
-           family={Вьюненко{\bibnamedelimb }Л.Ф.},
-           familyi={В\bibinitperiod}}}%
-        {{hash=39e5d6069433080e0346b44745fc61aa}{%
-           family={Михайлов{\bibnamedelimb }М.В.},
-           familyi={М\bibinitperiod}}}%
-        {{hash=f1bb419503b228c7b8eca12ca3fca192}{%
-           family={Первозванская{}Т.Н.},
-           familyi={П\bibinitperiod}}}%
-      }
-      \list{location}{1}{%
-        {Москва}%
-      }
-      \list{publisher}{1}{%
-        {Юрайт}%
-      }
-      \strng{namehash}{1c7998d3b4844f56cd12d27c896c53ab}
-      \strng{fullhash}{1c7998d3b4844f56cd12d27c896c53ab}
-      \strng{bibnamehash}{1c7998d3b4844f56cd12d27c896c53ab}
-      \strng{authorbibnamehash}{1c7998d3b4844f56cd12d27c896c53ab}
-      \strng{authornamehash}{1c7998d3b4844f56cd12d27c896c53ab}
-      \strng{authorfullhash}{1c7998d3b4844f56cd12d27c896c53ab}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{chapter}{8}
-      \field{title}{Имитационное моделирование}
-      \field{year}{2017}
-    \endentry
-    \entry{system_modelling_eng}{article}{}
-      \name{author}{1}{}{%
-        {{hash=28b1714b0443579a4c7271b7b7805618}{%
-           family={Avor{\bibnamedelimb }J.},
-           familyi={A\bibinitperiod}}}%
-      }
-      \strng{namehash}{28b1714b0443579a4c7271b7b7805618}
-      \strng{fullhash}{28b1714b0443579a4c7271b7b7805618}
-      \strng{bibnamehash}{28b1714b0443579a4c7271b7b7805618}
-      \strng{authorbibnamehash}{28b1714b0443579a4c7271b7b7805618}
-      \strng{authornamehash}{28b1714b0443579a4c7271b7b7805618}
-      \strng{authorfullhash}{28b1714b0443579a4c7271b7b7805618}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Information processing letters}
-      \field{title}{An adaptive time advancement algorithm for discrete simulation}
-      \field{year}{1977}
-      \field{number}{6}
-      \range{number}{1}
-      \field{pages}{83\bibrangedash 86}
-      \range{pages}{4}
-      \field{volume}{6}
-      \range{volume}{1}
-    \endentry
   \enddatalist
 \endrefsection
 \endinput

@@ -1,20 +1,3 @@
-%% bmstu_title.sty
-%% Copyright 2022 Mikael Novikov
-%
-% This work may be distributed and/or modified under the
-% conditions of the LaTeX Project Public License, either version 1.3
-% of this license or (at your option) any later version.
-% The latest version of this license is in
-%   http://www.latex-project.org/lppl.txt
-% and version 1.3 or later is part of all distributions of LaTeX
-% version 2005/12/01 or later.
-%
-% This work has the LPPL maintenance status `maintained'.
-% 
-% The Current Maintainer of this work is Mikael Novikov.
-%
-% This work consists of all files listed in manifest.txt.
-
 % Установка мета-данных выходного файла
 \newcommand{\documentmeta}[4]
 {
@@ -84,14 +67,14 @@
 {
 	{
 		\LARGE \bfseries
-		РАСЧЕТНО-ПОЯСНИТЕЛЬНАЯ ЗАПИСКА \\
+		ОТЧЕТ \\
 	}
 	\vspace{5mm}
 	{
-		\Large {\itshape
-		К ВЫПУСКНОЙ КВАЛИФИКАЦИОННОЙ РАБОТЕ \\
+		\Large \itshape
+		ПО НАУЧНО-ИССЛЕДОВАТЕЛЬСКОЙ РАБОТЕ \\
 		\vspace{5mm}
-		НА ТЕМУ:} \\
+		НА ТЕМУ: \\
 		<<#1>> \\
 	}
 }
@@ -108,7 +91,7 @@
 		\Large {\itshape
 		#1 \\
 		\vspace{5mm}
-		НА ТЕМУ}: \\
+		НА ТЕМУ:} \\
 		<<#2>> \\
 	}
 }
@@ -171,10 +154,10 @@
 		\titlepageauthors{#4}{#5}{Руководитель ВКР}{#6}{#7}{#8}{#9}
 		\vspace{14mm}
 		
-		{\the\year} г.
+		\textit{{\the\year} г.}
 	\end{titlepage}
 	
-	\setcounter{page}{3}
+	\setcounter{page}{2}
 }
 
 % Создание титульной страницы отчета по НИР
@@ -194,10 +177,10 @@
 		\titlepageauthors{#4}{#5}{Руководитель НИР}{#6}{#7}{#8}{}
 		\vspace{14mm}
 		
-		{\the\year} г.
+		\textit{{\the\year} г.}
 	\end{titlepage}
 	
-	\setcounter{page}{3}
+	\setcounter{page}{2}
 }
 
 % Создание титульной страницы РПЗ к КР
@@ -211,16 +194,17 @@
 		\titlepageheader{#1}{#2}
 		\vspace{15.8mm}
 		
-		\titlepagenotetitle{К КУРСОВОЙ РАБОТЕ}{#3}
+		\titlepagenotetitle{К НАУЧНО-ИССЛЕДОВАТЕЛЬСКОЙ РАБОТЕ 
+}{#3}
 		\vfill
 		
-		\titlepageauthors{#4}{#5}{Руководитель курсовой работы}{#6}{#7}{#8}{}
+		\titlepageauthors{#4}{#5}{Руководитель}{#6}{#7}{#8}{}
 		\vspace{14mm}
 		
 		\textit{{\the\year} г.}
 	\end{titlepage}
 	
-	\setcounter{page}{3}
+	\setcounter{page}{2}
 }
 
 % Создание титульной страницы отчета
@@ -240,8 +224,8 @@
 		\titlepageauthors{#7}{#8}{Преподаватель}{#9}{}{}{}
 		\vspace{14mm}
 		
-		{\the\year} г.
+		\textit{{\the\year} г.}
 	\end{titlepage}
 	
-	\setcounter{page}{3}
+	\setcounter{page}{2}
 }
