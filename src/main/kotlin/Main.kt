@@ -1,9 +1,6 @@
 import gui.MainWindow
 import simulator.*
 import time.*
-import kotlin.math.*
-import kotlin.random.Random
-import gui.MainWindow
 
 fun main() {
     MainWindow()
